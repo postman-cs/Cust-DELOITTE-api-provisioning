@@ -37,3 +37,4 @@ npm-debug.log*
 data/
 *.sqlite
 *.db
+.seed-output.json

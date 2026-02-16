@@ -99,6 +99,12 @@ demo-all: ## Start service + demo UI together (foreground)
 	echo "$(GREEN)Opening Demo UI...$(RESET)" && \
 	cd demo-ui && npx --yes serve -s . -l 5173 --no-clipboard
 
+seed: ## Seed the golden Postman workspace from the OpenAPI spec
+	@bash scripts/seed-workspace.sh
+
+seed-github: ## Seed workspace by pulling spec from GitHub
+	@bash scripts/seed-workspace.sh --from-github
+
 provision: ## Provision a partner workspace (example)
 	@bash scripts/provision.sh \
 		--partner-name "Coca-Cola UK" \
