@@ -35,6 +35,7 @@ import { createComplianceRoutes } from "./routes/compliance";
 import { createCollectionProtectionRoutes } from "./routes/collection-protection";
 import { createAuditRoutes } from "./routes/audit";
 import { createHealthRoutes } from "./routes/health";
+import { createLiveProvisionRoutes } from "./routes/provision-live";
 import { createLogger } from "./middleware/logger";
 
 const logger = createLogger("app");
@@ -120,6 +121,18 @@ async function main(): Promise<void> {
   app.use("/collections", createCollectionProtectionRoutes(collectionProtection));
   app.use("/audit", createAuditRoutes(auditLogger));
 
+  // Live provisioning — always uses real Postman API (even in mock mode)
+  if (config.postmanApiKey && config.postmanGoldenWorkspaceId) {
+    app.use("/provision", createLiveProvisionRoutes(
+      config.postmanApiKey,
+      config.postmanApiBaseUrl,
+      config.postmanGoldenWorkspaceId
+    ));
+    logger.info("Live provisioning enabled", {
+      goldenWorkspace: config.postmanGoldenWorkspaceId,
+    });
+  }
+
   // Error handler (must be last)
   app.use(errorHandler);
 
@@ -157,6 +170,8 @@ async function main(): Promise<void> {
         "GET    /audit/logs",
         "GET    /audit/logs/:id",
         "GET    /audit/provision/:id",
+        "POST   /provision/live                    (real Postman API provisioning)",
+        "POST   /provision/live/cleanup             (reset target workspace)",
       ],
     });
   });

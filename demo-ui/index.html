@@ -102,25 +102,33 @@
         <span id="badge-audit" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
       </button>
 
+      <div class="px-2 pt-4 pb-1.5 text-[10px] font-semibold text-orange-400 uppercase tracking-wider">Live Cross-Workspace</div>
+
+      <button onclick="goTo('live-provision')" data-nav="live-provision" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-orange-900/50 flex items-center justify-center text-xs mono text-orange-400 shrink-0">7</span>
+        <span>Live Provision</span>
+        <span id="badge-live-provision" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-400 font-medium"></span>
+      </button>
+
       <div class="px-2 pt-4 pb-1.5 text-[10px] font-semibold text-sky-400 uppercase tracking-wider">Partner / Sub-Org Experience</div>
 
       <button onclick="goTo('partner-home')" data-nav="partner-home" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
-        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">7</span>
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">8</span>
         <span>My Workspace</span>
         <span id="badge-partner-home" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
       </button>
       <button onclick="goTo('partner-invite')" data-nav="partner-invite" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
-        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">8</span>
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">9</span>
         <span>Invite My Team</span>
         <span id="badge-partner-invite" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
       </button>
       <button onclick="goTo('partner-pr')" data-nav="partner-pr" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
-        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">9</span>
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">10</span>
         <span>Fork &amp; PR Workflow</span>
         <span id="badge-partner-pr" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
       </button>
       <button onclick="goTo('partner-limits')" data-nav="partner-limits" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
-        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">10</span>
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">11</span>
         <span>Guardrails in Action</span>
         <span id="badge-partner-limits" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
       </button>
@@ -159,10 +167,24 @@
               <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Audit</span>
             </div>
           </div>
+          <div class="bg-slate-900 border border-orange-500/20 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+              <div class="text-sm font-semibold text-white">Live Cross-Workspace Provisioning (Step 7)</div>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3">The real deal: provision from the golden "Deloitte" workspace to a completely separate "Deloitte2" workspace using the live Postman API. Collections, environments, and config — copied in real time. Verify in Postman instantly.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-900/50 text-orange-400">Live API</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-900/50 text-orange-400">Cross-Workspace</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-900/50 text-orange-400">Real Assets</span>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
           <div class="bg-slate-900 border border-sky-500/20 rounded-xl p-5">
             <div class="flex items-center gap-2 mb-3">
               <div class="w-3 h-3 rounded-full bg-sky-500"></div>
-              <div class="text-sm font-semibold text-white">Partner / Sub-Org Experience (Steps 7-10)</div>
+              <div class="text-sm font-semibold text-white">Partner / Sub-Org Experience (Steps 8-11)</div>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed mb-3">Downstream partners (e.g. Coca-Cola UK) work <em>within</em> their provisioned environment: view their workspace, invite teammates, propose changes via PR, and see guardrails in action.</p>
             <div class="flex flex-wrap gap-1.5">
@@ -179,7 +201,7 @@
           <div class="text-xs text-slate-400 leading-relaxed space-y-1">
             <p>1. Make sure the service is running: <code class="mono bg-slate-800 px-1.5 py-0.5 rounded text-deloitte-400">make dev</code></p>
             <p>2. Click through each step in the sidebar, or use the button below for a full walkthrough</p>
-            <p>3. Steps 1-6 are the <strong class="text-deloitte-400">admin perspective</strong> — Steps 7-10 switch to the <strong class="text-sky-400">partner perspective</strong></p>
+            <p>3. Steps 1-6 are the <strong class="text-deloitte-400">admin perspective</strong> — Step 7 is <strong class="text-orange-400">live cross-workspace</strong> — Steps 8-11 are the <strong class="text-sky-400">partner perspective</strong></p>
           </div>
         </div>
 
@@ -195,7 +217,7 @@
       <!-- ═══ STEP 1: PROVISION ═══ -->
       <section id="page-provision" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 1 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 1 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Provision a Partner Workspace</h2>
           <p class="text-slate-400">Creates an isolated workspace with collections, environments, and an invite policy &mdash; all in one API call.</p>
         </div>
@@ -225,7 +247,7 @@
       <!-- ═══ STEP 2: GUARDRAILS ═══ -->
       <section id="page-guardrails" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 2 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 2 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Domain Guardrails</h2>
           <p class="text-slate-400">The policy engine blocks free email domains, enforces team-specific allowlists, and requires single-partner workspaces.</p>
         </div>
@@ -255,7 +277,7 @@
       <!-- ═══ STEP 3: INVITE GUARD ═══ -->
       <section id="page-invite" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 3 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 3 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Invite Guard</h2>
           <p class="text-slate-400">Every provisioned workspace gets an invite policy. Invites are domain-scoped &mdash; no one can invite gmail.com even with admin access.</p>
         </div>
@@ -282,7 +304,7 @@
       <!-- ═══ STEP 4: COMPLIANCE ═══ -->
       <section id="page-compliance" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 4 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 4 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Compliance Guardrails</h2>
           <p class="text-slate-400">The security floor: global rules that no one can go below, plus team overrides that can only tighten.</p>
         </div>
@@ -304,7 +326,7 @@
       <!-- ═══ STEP 5: COLLECTION PROTECTION ═══ -->
       <section id="page-protection" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 5 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 5 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Collection Protection &amp; PR Workflow</h2>
           <p class="text-slate-400">Branch protection for Postman: protect a collection, fork it, submit a PR, get it reviewed, and merge.</p>
         </div>
@@ -326,7 +348,7 @@
       <!-- ═══ STEP 6: AUDIT ═══ -->
       <section id="page-audit" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 6 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 6 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Audit Trail</h2>
           <p class="text-slate-400">Every action is logged with full context. Query by action, actor, or provision ID.</p>
         </div>
@@ -342,7 +364,80 @@
           <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /audit/logs?action=invite.rejected</div><div class="text-sm text-slate-300">Filter: only rejected invites</div></div><button onclick="runAudit('rejected')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Show Rejections</button></div>
           <div id="result-audit-rejected" class="hidden"></div>
         </div>
-        <div class="flex justify-between mt-6"><button onclick="goTo('protection')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Collection Protection</button><button onclick="goTo('partner-home')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors">Switch to Partner View &rarr;</button></div>
+        <div class="flex justify-between mt-6"><button onclick="goTo('protection')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Collection Protection</button><button onclick="goTo('live-provision')" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg transition-colors">Next: Live Provisioning &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 7: LIVE CROSS-WORKSPACE PROVISIONING ═══ -->
+      <section id="page-live-provision" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400">Live</span><span class="mono">Step 7 of 11</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Live Cross-Workspace Provisioning</h2>
+          <p class="text-slate-400">Provision from the golden <strong class="text-deloitte-400">Deloitte</strong> workspace to a completely different <strong class="text-orange-400">Deloitte2</strong> workspace using the real Postman API. Collections, environments, and config are copied in real time.</p>
+        </div>
+
+        <div class="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4 mb-6">
+          <div class="grid grid-cols-2 gap-6 text-xs">
+            <div>
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Source (Golden)</div>
+              <div class="text-white font-medium mb-1">Deloitte</div>
+              <div class="text-slate-400 mono text-[10px]">049c773e-979a-4459-bf56-051807af1790</div>
+              <a href="https://go.postman.co/workspace/049c773e-979a-4459-bf56-051807af1790" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-deloitte-400 hover:text-deloitte-300 transition-colors">
+                Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Target (Partner)</div>
+              <div class="text-white font-medium mb-1">Deloitte2</div>
+              <div class="text-slate-400 mono text-[10px]">897c9214-fccb-4bce-9008-96e6196d44d1</div>
+              <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-orange-400 hover:text-orange-300 transition-colors">
+                Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/live</div>
+              <div class="text-sm text-slate-300">Copy all collections &amp; environments from Deloitte &rarr; Deloitte2</div>
+            </div>
+            <button onclick="runLiveProvision()" id="btn-live-provision" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-orange-500/20">Provision Now</button>
+          </div>
+          <pre class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800"><code>{
+  "target_workspace_id": "897c9214-fccb-4bce-9008-96e6196d44d1",
+  "partner_name": "Deloitte Partner",
+  "copy_collections": true,
+  "copy_environments": true
+}</code></pre>
+          <div class="text-[10px] text-slate-600 mt-2">Uses the real Postman API — assets will appear in the target workspace immediately</div>
+        </div>
+        <div id="result-live-provision" class="hidden"></div>
+
+        <div id="live-provision-links" class="hidden bg-orange-500/5 border border-orange-500/20 rounded-xl p-5 mb-4">
+          <div class="text-sm font-medium text-white mb-3">Assets Copied Successfully</div>
+          <div id="live-provision-assets" class="space-y-2"></div>
+          <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-orange-500/20">
+            Open Target Workspace in Postman
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/live/cleanup</div>
+              <div class="text-sm text-slate-300">Reset: delete all collections &amp; environments from Deloitte2</div>
+            </div>
+            <button onclick="runLiveCleanup()" id="btn-live-cleanup" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Reset Target Workspace</button>
+          </div>
+          <div id="result-live-cleanup" class="hidden mt-3"></div>
+        </div>
+
+        <div class="flex justify-between mt-6">
+          <button onclick="goTo('audit')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Audit Trail</button>
+          <button onclick="goTo('partner-home')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors">Switch to Partner View &rarr;</button>
+        </div>
       </section>
 
       <!-- ═══════════════════════════════════════════════════════ -->
@@ -352,7 +447,7 @@
       <!-- ═══ STEP 7: PARTNER HOME ═══ -->
       <section id="page-partner-home" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 7 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 8 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">My Workspace</h2>
           <p class="text-slate-400">You are now <strong class="text-sky-400">Coca-Cola UK</strong>. This is what your team sees when they open their provisioned Postman workspace.</p>
         </div>
@@ -398,13 +493,13 @@
           <div id="result-partner-rules" class="hidden"></div>
         </div>
 
-        <div class="flex justify-between mt-6"><button onclick="goTo('audit')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Audit Trail</button><button onclick="goTo('partner-invite')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Invite My Team &rarr;</button></div>
+        <div class="flex justify-between mt-6"><button onclick="goTo('live-provision')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Live Provisioning</button><button onclick="goTo('partner-invite')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Invite My Team &rarr;</button></div>
       </section>
 
       <!-- ═══ STEP 8: PARTNER INVITE ═══ -->
       <section id="page-partner-invite" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 8 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 9 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Invite My Team</h2>
           <p class="text-slate-400">As a Coca-Cola partner, I can invite my colleagues &mdash; but only from approved domains. The guardrails protect me from mistakes.</p>
         </div>
@@ -455,7 +550,7 @@
       <!-- ═══ STEP 9: PARTNER PR WORKFLOW ═══ -->
       <section id="page-partner-pr" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 9 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 10 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Fork &amp; PR Workflow</h2>
           <p class="text-slate-400">Protected collections can't be edited directly. As a partner, I fork, make changes, and submit a PR for review &mdash; just like GitHub.</p>
         </div>
@@ -504,7 +599,7 @@
       <!-- ═══ STEP 10: PARTNER LIMITS ═══ -->
       <section id="page-partner-limits" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 10 of 10</span></div>
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 11 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Guardrails in Action</h2>
           <p class="text-slate-400">As a partner, these are the things the platform prevents me from doing &mdash; protecting Deloitte's IP and compliance posture.</p>
         </div>
@@ -668,6 +763,72 @@ async function runAudit(t) {
   else if(t==='provision'){if(!state.provId){show('result-audit-provision',0,{error:'Provision first (Step 1)'});return;} r=await api('GET',`/audit/provision/${state.provId}`); const e=r.data?.data||[]; const h=e.map(e=>{const c=e.action?.includes('failed')?'text-red-400':'text-green-400'; return`<div class="flex items-center gap-3 text-xs py-2"><span class="${c}">${e.action?.includes('failed')?'&#10007;':'&#10003;'}</span><span class="text-slate-300">${e.action}</span><span class="text-slate-600 mono text-[10px] ml-auto">${e.timestamp?.slice(11,19)||''}</span></div>`;}).join(''); show('result-audit-provision',r.status,r.data,e.length?`<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Provision Timeline</div>${h}</div>`:'');}
   else if(t==='rejected'){r=await api('GET','/audit/logs?action=invite.rejected'); show('result-audit-rejected',r.status,r.data);}
   badge('audit','Loaded');
+}
+
+// ── Step 7: Live Cross-Workspace Provisioning ──────────
+const TARGET_WS = '897c9214-fccb-4bce-9008-96e6196d44d1';
+
+async function runLiveProvision() {
+  const btn = document.getElementById('btn-live-provision');
+  btn.textContent = 'Provisioning (real API)...'; btn.disabled = true;
+  btn.className = btn.className.replace('bg-orange-500 hover:bg-orange-600', 'bg-slate-700');
+  try {
+    const { status, data } = await api('POST', '/provision/live', {
+      target_workspace_id: TARGET_WS,
+      partner_name: 'Deloitte Partner',
+      copy_collections: true,
+      copy_environments: true,
+    });
+    const d = data?.data;
+    if (d && d.steps) {
+      const stepsHtml = d.steps.map(s => {
+        const c = s.status === 'completed' ? 'text-green-400' : s.status === 'failed' ? 'text-red-400' : 'text-slate-500';
+        const icon = s.status === 'completed' ? '&#10003;' : s.status === 'failed' ? '&#10007;' : '&#8212;';
+        return `<div class="flex items-center gap-2 text-xs py-1"><span class="${c}">${icon}</span><span class="text-slate-300 flex-1">${s.name}</span><span class="text-slate-600 mono text-[10px]">${s.detail}</span></div>`;
+      }).join('');
+      const pipeline = `<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-orange-400 uppercase tracking-wider mb-2">Live Pipeline (Real Postman API)</div>${stepsHtml}</div>`;
+
+      show('result-live-provision', status, data, pipeline);
+
+      // Show copied assets with links
+      const linksEl = document.getElementById('live-provision-links');
+      const assetsEl = document.getElementById('live-provision-assets');
+      const assets = [];
+      for (const c of d.collections_copied || []) {
+        assets.push(`<div class="flex items-center gap-2 text-xs"><span class="text-green-400">&#10003;</span><span class="text-slate-300">Collection: <strong class="text-white">${c.name}</strong></span><span class="text-slate-600 mono text-[10px]">${c.uid}</span></div>`);
+      }
+      for (const e of d.environments_copied || []) {
+        assets.push(`<div class="flex items-center gap-2 text-xs"><span class="text-green-400">&#10003;</span><span class="text-slate-300">Environment: <strong class="text-white">${e.name}</strong></span><span class="text-slate-600 mono text-[10px]">${e.uid}</span></div>`);
+      }
+      assetsEl.innerHTML = assets.join('');
+      linksEl.classList.remove('hidden');
+    } else {
+      show('result-live-provision', status, data);
+    }
+    badge('live-provision', 'Done');
+    btn.textContent = 'Provision Again';
+  } catch(e) {
+    show('result-live-provision', 0, { error: e.message });
+    btn.textContent = 'Provision Now';
+  }
+  btn.disabled = false;
+  btn.className = btn.className.replace('bg-slate-700', 'bg-orange-500 hover:bg-orange-600');
+}
+
+async function runLiveCleanup() {
+  const btn = document.getElementById('btn-live-cleanup');
+  btn.textContent = 'Cleaning...'; btn.disabled = true;
+  try {
+    const { status, data } = await api('POST', '/provision/live/cleanup', { target_workspace_id: TARGET_WS });
+    const count = data?.data?.count || 0;
+    show('result-live-cleanup', status, data, `<div class="bg-slate-800/50 rounded-lg p-3 mb-3 text-xs text-slate-400">Removed ${count} asset(s) from target workspace. It's now clean for another demo run.</div>`);
+    document.getElementById('live-provision-links').classList.add('hidden');
+    btn.textContent = 'Reset Target Workspace';
+  } catch(e) {
+    show('result-live-cleanup', 0, { error: e.message });
+    btn.textContent = 'Reset Target Workspace';
+  }
+  btn.disabled = false;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -837,6 +998,8 @@ async function runFullDemo() {
     {name:'Collection Protection: create PR',fn:async()=>{await runProtection('pr');}},
     {name:'Audit Trail: all events',fn:async()=>{goTo('audit');await runAudit('all');}},
     {name:'Audit Trail: provision timeline',fn:async()=>{await runAudit('provision');}},
+    {name:'[Live] Clean target workspace',fn:async()=>{goTo('live-provision');await runLiveCleanup();}},
+    {name:'[Live] Provision Deloitte → Deloitte2',fn:async()=>{await runLiveProvision();}},
     {name:'[Partner] My workspace overview',fn:async()=>{goTo('partner-home');await runPartnerHome('status');}},
     {name:'[Partner] My invite rules',fn:async()=>{await runPartnerHome('policy');}},
     {name:'[Partner] My compliance rules',fn:async()=>{await runPartnerHome('compliance');}},
