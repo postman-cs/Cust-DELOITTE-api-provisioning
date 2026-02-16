@@ -185,51 +185,69 @@ done
 # ── Step 4: Register API in Postman API Builder ─────────
 log "Registering API in Postman API Builder (Spec Hub)..."
 
+# Postman v10+ APIs require the vnd.api.v10+json Accept header
+V10_ACCEPT="application/vnd.api.v10+json"
+
 API_PAYLOAD=$(python3 -c "
 import json
 print(json.dumps({
     'name': '$SPEC_TITLE',
     'summary': 'Governance-compliant API managed by CI/CD pipeline',
-    'description': 'Imported from GitHub repo openapi.yaml. Version: $SPEC_VERSION'
+    'description': 'Imported from GitHub repo openapi.yaml. Version: $SPEC_VERSION',
+    'workspaceId': '$WS_ID'
 }))
 ")
 
 API_RESULT=$(curl -sf -X POST \
   -H "X-API-Key: $API_KEY" \
   -H "Content-Type: application/json" \
-  "$API_BASE/apis?workspace=$WS_ID" \
+  -H "Accept: $V10_ACCEPT" \
+  "$API_BASE/apis" \
   -d "$API_PAYLOAD" 2>&1) || {
-    warn "  API creation failed (may require Postman team/business plan)"
-    API_ID=""
+    warn "  API creation failed (check plan limits with: GET /me)"
+    API_RESULT=""
   }
 
 API_ID=""
 if [ -n "${API_RESULT:-}" ]; then
-  API_ID=$(echo "$API_RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('api',{}).get('id',''))" 2>/dev/null || echo "")
+  API_ID=$(echo "$API_RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null || echo "")
   if [ -n "$API_ID" ]; then
     log "  API registered: ${BOLD}$API_ID${RESET}"
 
-    # Add schema version
-    log "  Adding OpenAPI schema to API..."
+    # Upload OpenAPI schema
+    log "  Uploading OpenAPI schema..."
     SCHEMA_PAYLOAD=$(python3 -c "
-import json, sys
-spec = sys.stdin.read()
+import json
+spec = open('$REPO_ROOT/api/openapi.yaml').read()
 print(json.dumps({
-    'type': 'openapi3',
-    'language': 'yaml',
-    'schema': spec
+    'type': 'openapi:3_1',
+    'files': [{'path': 'openapi.yaml', 'content': spec}]
 }))
-" <<< "$SPEC_CONTENT")
+")
 
     SCHEMA_RESULT=$(curl -sf -X POST \
       -H "X-API-Key: $API_KEY" \
       -H "Content-Type: application/json" \
+      -H "Accept: $V10_ACCEPT" \
       "$API_BASE/apis/$API_ID/schemas" \
-      -d "$SCHEMA_PAYLOAD" 2>&1) || warn "  Schema upload may need a different endpoint for your plan"
+      -d "$SCHEMA_PAYLOAD" 2>&1) || warn "  Schema upload failed"
 
     if [ -n "${SCHEMA_RESULT:-}" ]; then
-      SCHEMA_ID=$(echo "$SCHEMA_RESULT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('schema',{}).get('id', d.get('id','')))" 2>/dev/null || echo "")
+      SCHEMA_ID=$(echo "$SCHEMA_RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null || echo "")
       [ -n "$SCHEMA_ID" ] && log "  Schema: ${BOLD}$SCHEMA_ID${RESET}"
+    fi
+
+    # Link collection to API
+    if [ -n "${COL_UID:-}" ]; then
+      log "  Linking collection to API..."
+      curl -sf -X POST \
+        -H "X-API-Key: $API_KEY" \
+        -H "Content-Type: application/json" \
+        -H "Accept: $V10_ACCEPT" \
+        "$API_BASE/apis/$API_ID/collections" \
+        -d "{\"operationType\":\"COPY_COLLECTION\",\"data\":{\"collectionId\":\"$COL_UID\"}}" > /dev/null 2>&1 \
+        && log "  Collection linked to API" \
+        || warn "  Failed to link collection"
     fi
   fi
 fi
