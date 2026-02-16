@@ -1,0 +1,119 @@
+# ─────────────────────────────────────────────────────────
+# Deloitte API Governance Rules
+# Used by Spectral (OpenAPI linter) in CI/CD pipeline.
+# Extend the built-in "oas" ruleset with Deloitte-specific rules.
+# ─────────────────────────────────────────────────────────
+
+extends:
+  - spectral:oas
+
+rules:
+  # ── Required metadata ────────────────────────────────
+  deloitte-metadata-required:
+    description: "API must include x-deloitte-metadata with owner-team and data-classification"
+    given: "$.info"
+    severity: error
+    then:
+      - field: "x-deloitte-metadata"
+        function: truthy
+      - field: "x-deloitte-metadata.owner-team"
+        function: truthy
+      - field: "x-deloitte-metadata.data-classification"
+        function: truthy
+
+  deloitte-data-classification-values:
+    description: "data-classification must be one of: public, internal, confidential, restricted"
+    given: "$.info.x-deloitte-metadata.data-classification"
+    severity: error
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - public
+          - internal
+          - confidential
+          - restricted
+
+  # ── Contact info required ────────────────────────────
+  deloitte-contact-required:
+    description: "API info must include contact with name and email"
+    given: "$.info"
+    severity: error
+    then:
+      - field: "contact"
+        function: truthy
+      - field: "contact.email"
+        function: truthy
+
+  # ── Security ─────────────────────────────────────────
+  deloitte-global-security:
+    description: "API must define global security (at least one scheme)"
+    given: "$"
+    severity: error
+    then:
+      field: "security"
+      function: truthy
+
+  deloitte-security-scheme-bearer:
+    description: "At least one security scheme must use bearer auth"
+    given: "$.components.securitySchemes[*]"
+    severity: warn
+    then:
+      field: "scheme"
+      function: pattern
+      functionOptions:
+        match: "^bearer$"
+
+  # ── Naming conventions ───────────────────────────────
+  deloitte-operation-id-required:
+    description: "Every operation must have an operationId"
+    given: "$.paths[*][get,post,put,patch,delete]"
+    severity: error
+    then:
+      field: "operationId"
+      function: truthy
+
+  deloitte-operation-id-camelcase:
+    description: "operationId must be camelCase"
+    given: "$.paths[*][get,post,put,patch,delete].operationId"
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  # ── Response standards ───────────────────────────────
+  deloitte-error-schema:
+    description: "Error responses (4xx, 5xx) should reference a standard Error schema"
+    given: "$.paths[*][*].responses[?(@property >= '400')]"
+    severity: warn
+    then:
+      field: "content.application/json.schema.$ref"
+      function: truthy
+
+  # ── Versioning ───────────────────────────────────────
+  deloitte-version-format:
+    description: "API version must follow semver format (x.y.z)"
+    given: "$.info.version"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+
+  # ── Documentation ────────────────────────────────────
+  deloitte-description-required:
+    description: "API must have a description"
+    given: "$.info"
+    severity: error
+    then:
+      field: "description"
+      function: truthy
+
+  deloitte-tags-required:
+    description: "Every operation must have at least one tag"
+    given: "$.paths[*][get,post,put,patch,delete]"
+    severity: warn
+    then:
+      field: "tags"
+      function: truthy

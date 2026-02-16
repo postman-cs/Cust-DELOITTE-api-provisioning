@@ -1,0 +1,79 @@
+{
+  "_comment": "Example provision requests for testing and documentation",
+
+  "example_1_standard_partner": {
+    "description": "Standard external partner provisioning for Coca-Cola",
+    "request": {
+      "partner_name": "Coca-Cola Global",
+      "partner_domains": ["coca-cola.com"],
+      "api_package_ids": ["col-cloud-v3-uid"],
+      "update_mode": "manual",
+      "workspace_policy": "standard",
+      "requested_by": "john.smith@deloitte.com",
+      "team_id": "team-cpg"
+    },
+    "expected_result": "allowed — coca-cola.com is in team-cpg allowlist"
+  },
+
+  "example_2_internal_sharing": {
+    "description": "Internal sharing between Deloitte member firms",
+    "request": {
+      "partner_name": "Deloitte Canada Analytics",
+      "partner_domains": ["deloitte.ca"],
+      "api_package_ids": ["col-cloud-v3-uid", "col-data-uid"],
+      "update_mode": "auto",
+      "workspace_policy": "open-internal",
+      "requested_by": "jane.doe@deloitte.com"
+    },
+    "expected_result": "allowed — deloitte.ca is a globally allowed domain"
+  },
+
+  "example_3_restricted_partner": {
+    "description": "Restricted workspace for a financial services partner",
+    "request": {
+      "partner_name": "JPMorgan Chase",
+      "partner_domains": ["jpmorgan.com"],
+      "api_package_ids": ["col-identity-uid"],
+      "update_mode": "manual",
+      "workspace_policy": "restricted",
+      "requested_by": "provisioner@deloitte.com",
+      "team_id": "team-finance"
+    },
+    "expected_result": "allowed — jpmorgan.com is in team-finance allowlist"
+  },
+
+  "example_4_blocked_domain": {
+    "description": "Attempt to provision with a free email domain",
+    "request": {
+      "partner_name": "Random User",
+      "partner_domains": ["gmail.com"],
+      "api_package_ids": ["col-cloud-v3-uid"],
+      "update_mode": "manual",
+      "workspace_policy": "standard",
+      "requested_by": "user@deloitte.com"
+    },
+    "expected_result": "denied — gmail.com is in the blocked domains list"
+  },
+
+  "example_5_multi_domain_violation": {
+    "description": "Attempt to mix two external partner domains",
+    "request": {
+      "partner_name": "Mixed Partners",
+      "partner_domains": ["coca-cola.com", "pepsi.com"],
+      "api_package_ids": ["col-cloud-v3-uid"],
+      "update_mode": "manual",
+      "workspace_policy": "standard",
+      "requested_by": "provisioner@deloitte.com",
+      "team_id": "team-cpg"
+    },
+    "expected_result": "denied — single_partner_domain_required is true, and two external domains provided"
+  },
+
+  "curl_examples": {
+    "provision_workspace": "curl -X POST http://localhost:3000/provision/workspace -H 'Content-Type: application/json' -d '{\"partner_name\":\"Coca-Cola Global\",\"partner_domains\":[\"coca-cola.com\"],\"api_package_ids\":[\"col-cloud-v3-uid\"],\"update_mode\":\"manual\",\"workspace_policy\":\"standard\",\"requested_by\":\"user@deloitte.com\",\"team_id\":\"team-cpg\"}'",
+    "check_status": "curl http://localhost:3000/provision/status/{provision_id}",
+    "list_provisions": "curl http://localhost:3000/provision/list",
+    "query_audit": "curl 'http://localhost:3000/audit/logs?action=provision.completed&limit=10'",
+    "health_check": "curl http://localhost:3000/health"
+  }
+}

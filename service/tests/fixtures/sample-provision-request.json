@@ -1,0 +1,56 @@
+{
+  "valid_request": {
+    "partner_name": "Coca-Cola Global",
+    "partner_domains": ["coca-cola.com"],
+    "api_package_ids": ["col-cloud-v3-uid"],
+    "update_mode": "manual",
+    "workspace_policy": "standard",
+    "requested_by": "provisioner@deloitte.com",
+    "team_id": "team-cpg"
+  },
+  "internal_sharing_request": {
+    "partner_name": "Deloitte Canada",
+    "partner_domains": ["deloitte.ca"],
+    "api_package_ids": ["col-cloud-v3-uid", "col-data-uid"],
+    "update_mode": "auto",
+    "workspace_policy": "open-internal",
+    "requested_by": "admin@deloitte.com"
+  },
+  "blocked_domain_request": {
+    "partner_name": "Random User",
+    "partner_domains": ["gmail.com"],
+    "api_package_ids": ["col-cloud-v3-uid"],
+    "update_mode": "manual",
+    "workspace_policy": "standard",
+    "requested_by": "user@deloitte.com"
+  },
+  "multi_domain_violation": {
+    "partner_name": "Multi Partner",
+    "partner_domains": ["coca-cola.com", "pepsi.com"],
+    "api_package_ids": ["col-cloud-v3-uid"],
+    "update_mode": "manual",
+    "workspace_policy": "standard",
+    "requested_by": "provisioner@deloitte.com",
+    "team_id": "team-cpg"
+  },
+  "unauthorized_team_request": {
+    "partner_name": "Ford Motor Company",
+    "partner_domains": ["ford.com"],
+    "api_package_ids": ["col-cloud-v3-uid"],
+    "update_mode": "manual",
+    "workspace_policy": "standard",
+    "requested_by": "provisioner@deloitte.com",
+    "team_id": "team-cpg"
+  },
+  "expected_audit_output": {
+    "description": "When valid_request is processed, expect these audit entries:",
+    "entries": [
+      { "action": "provision.requested", "actor": "provisioner@deloitte.com" },
+      { "action": "provision.policy_check", "actor": "provisioner@deloitte.com" },
+      { "action": "provision.workspace_created", "actor": "provisioner@deloitte.com" },
+      { "action": "provision.assets_copied", "actor": "provisioner@deloitte.com" },
+      { "action": "provision.permissions_set", "actor": "provisioner@deloitte.com" },
+      { "action": "provision.completed", "actor": "provisioner@deloitte.com" }
+    ]
+  }
+}

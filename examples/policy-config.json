@@ -1,0 +1,106 @@
+{
+  "_comment": "Example policy configuration — customize for your Deloitte org",
+
+  "minimal_config": {
+    "description": "Bare minimum policy — only Deloitte domains, strict controls",
+    "config": {
+      "allowed_domains_global": ["deloitte.com"],
+      "allowed_domains_by_team": {},
+      "single_partner_domain_required": true,
+      "allow_partner_invites": false,
+      "default_update_mode": "manual",
+      "blocked_domains": ["gmail.com", "yahoo.com", "hotmail.com"],
+      "workspace_policies": {
+        "standard": {
+          "allow_member_invites": false,
+          "allow_collection_creation": false,
+          "allow_forking": true,
+          "visibility": "partner",
+          "description_suffix": " | Managed by Deloitte"
+        }
+      }
+    }
+  },
+
+  "full_config": {
+    "description": "Full config with all member firm domains and team allowlists",
+    "config": {
+      "allowed_domains_global": [
+        "deloitte.com",
+        "deloitte.ca",
+        "deloitte.co.uk",
+        "deloitte.de",
+        "deloitte.fr",
+        "deloitte.nl",
+        "deloitte.com.au",
+        "deloitte.co.jp",
+        "deloitte.co.za",
+        "deloitte.ch",
+        "deloitte.ie",
+        "deloitte.be",
+        "deloitte.es",
+        "deloitte.it",
+        "deloitte.com.br"
+      ],
+      "allowed_domains_by_team": {
+        "team-cpg": ["coca-cola.com", "ko.com", "unilever.com"],
+        "team-automotive": ["ford.com", "gm.com", "toyota.com"],
+        "team-finance": ["jpmorgan.com", "goldmansachs.com"],
+        "team-tech": ["microsoft.com", "google.com", "amazon.com"],
+        "team-healthcare": ["pfizer.com", "jnj.com"]
+      },
+      "single_partner_domain_required": true,
+      "allow_partner_invites": false,
+      "default_update_mode": "manual",
+      "blocked_domains": [
+        "gmail.com", "yahoo.com", "hotmail.com", "outlook.com",
+        "aol.com", "icloud.com", "mail.com", "protonmail.com",
+        "zoho.com", "yandex.com", "163.com", "qq.com",
+        "mailinator.com", "tempmail.com", "guerrillamail.com"
+      ],
+      "max_workspaces_per_team": 50,
+      "workspace_policies": {
+        "standard": {
+          "allow_member_invites": false,
+          "allow_collection_creation": false,
+          "allow_forking": true,
+          "visibility": "partner",
+          "description_suffix": " | Managed by Deloitte API Platform"
+        },
+        "restricted": {
+          "allow_member_invites": false,
+          "allow_collection_creation": false,
+          "allow_forking": false,
+          "visibility": "private",
+          "description_suffix": " | RESTRICTED - Deloitte Managed"
+        },
+        "open-internal": {
+          "allow_member_invites": true,
+          "allow_collection_creation": true,
+          "allow_forking": true,
+          "visibility": "team",
+          "description_suffix": " | Internal Deloitte Workspace"
+        }
+      }
+    }
+  },
+
+  "eu_data_center_config": {
+    "description": "Config for EU data center — same structure, different domains",
+    "notes": "When Deloitte moves to EU DC, update the Postman API base URL and ensure all domains are EU-compliant",
+    "config": {
+      "allowed_domains_global": [
+        "deloitte.de",
+        "deloitte.fr",
+        "deloitte.nl",
+        "deloitte.ch",
+        "deloitte.ie",
+        "deloitte.be",
+        "deloitte.es",
+        "deloitte.it",
+        "deloitte.co.uk",
+        "deloitte.com"
+      ]
+    }
+  }
+}

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deloitte API Provisioning Platform — Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deloitte: { 50:'#f0fdf4', 100:'#dcfce7', 200:'#bbf7d0', 300:'#86efac', 400:'#4ade80', 500:'#86BC25', 600:'#6fa01e', 700:'#578017', 800:'#3f6010', 900:'#1a3006' },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .json-key { color: #7dd3fc; }
+    .json-str { color: #86efac; }
+    .json-num { color: #fde68a; }
+    .json-bool { color: #c4b5fd; }
+    .json-null { color: #94a3b8; }
+    .step-card { transition: all 0.2s ease; }
+    .step-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #1e293b; }
+    ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+    .sidebar-item.active { background: rgba(134,188,37,0.15); border-left-color: #86BC25; }
+    .pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .persona-admin { border-left: 3px solid #86BC25; }
+    .persona-partner { border-left: 3px solid #38bdf8; }
+  </style>
+</head>
+<body class="h-full bg-slate-950 text-slate-200">
+
+<div class="flex h-full">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+    <div class="px-5 py-5 border-b border-slate-800">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-deloitte-500 flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div>
+          <div class="text-sm font-bold text-white">Deloitte</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-wider">API Provisioning Platform</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="conn-status" class="mx-4 mt-4 mb-2 px-3 py-2 rounded-lg bg-slate-800/50 border border-slate-700 text-xs">
+      <div class="flex items-center gap-2">
+        <span id="conn-dot" class="w-2 h-2 rounded-full bg-slate-600 pulse"></span>
+        <span id="conn-text" class="text-slate-400">Connecting...</span>
+      </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-0.5">
+      <div class="px-2 py-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Admin Workflow</div>
+
+      <button onclick="goTo('welcome')" data-nav="welcome" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">0</span>
+        <span>Overview</span>
+      </button>
+      <button onclick="goTo('provision')" data-nav="provision" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">1</span>
+        <span>Provision Workspace</span>
+        <span id="badge-provision" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('guardrails')" data-nav="guardrails" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">2</span>
+        <span>Domain Guardrails</span>
+        <span id="badge-guardrails" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('invite')" data-nav="invite" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">3</span>
+        <span>Invite Guard</span>
+        <span id="badge-invite" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('compliance')" data-nav="compliance" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">4</span>
+        <span>Compliance Rules</span>
+        <span id="badge-compliance" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('protection')" data-nav="protection" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">5</span>
+        <span>Collection Protection</span>
+        <span id="badge-protection" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('audit')" data-nav="audit" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-xs mono shrink-0">6</span>
+        <span>Audit Trail</span>
+        <span id="badge-audit" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-deloitte-500/20 text-deloitte-400 font-medium"></span>
+      </button>
+
+      <div class="px-2 pt-4 pb-1.5 text-[10px] font-semibold text-sky-400 uppercase tracking-wider">Partner / Sub-Org Experience</div>
+
+      <button onclick="goTo('partner-home')" data-nav="partner-home" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">7</span>
+        <span>My Workspace</span>
+        <span id="badge-partner-home" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('partner-invite')" data-nav="partner-invite" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">8</span>
+        <span>Invite My Team</span>
+        <span id="badge-partner-invite" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('partner-pr')" data-nav="partner-pr" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">9</span>
+        <span>Fork &amp; PR Workflow</span>
+        <span id="badge-partner-pr" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
+      </button>
+      <button onclick="goTo('partner-limits')" data-nav="partner-limits" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
+        <span class="w-6 h-6 rounded-full bg-sky-900/50 flex items-center justify-center text-xs mono text-sky-400 shrink-0">10</span>
+        <span>Guardrails in Action</span>
+        <span id="badge-partner-limits" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
+      </button>
+    </nav>
+
+    <div class="px-5 py-4 border-t border-slate-800 text-[11px] text-slate-600">
+      Service: <span class="mono">localhost:3000</span><br>
+      <span id="mode-label">Mock mode</span> &middot; No auth required
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="flex-1 overflow-y-auto">
+    <div class="max-w-5xl mx-auto px-8 py-8">
+
+      <!-- ═══ WELCOME ═══ -->
+      <section id="page-welcome" class="page fade-in">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-white mb-2">API Provisioning Platform</h1>
+          <p class="text-slate-400 text-lg">Interactive demo of the full Deloitte Postman governance system</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-3 h-3 rounded-full bg-deloitte-500"></div>
+              <div class="text-sm font-semibold text-white">Admin Workflow (Steps 1-6)</div>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3">Deloitte provisioners set up partner workspaces, define domain guardrails, compliance rules, collection protection, and audit everything.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Provision</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Guardrails</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Invite Guard</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Compliance</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Collection Protection</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Audit</span>
+            </div>
+          </div>
+          <div class="bg-slate-900 border border-sky-500/20 rounded-xl p-5">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-3 h-3 rounded-full bg-sky-500"></div>
+              <div class="text-sm font-semibold text-white">Partner / Sub-Org Experience (Steps 7-10)</div>
+            </div>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3">Downstream partners (e.g. Coca-Cola UK) work <em>within</em> their provisioned environment: view their workspace, invite teammates, propose changes via PR, and see guardrails in action.</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900/50 text-sky-400">My Workspace</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900/50 text-sky-400">Invite My Team</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900/50 text-sky-400">Fork &amp; PR</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900/50 text-sky-400">Guardrails in Action</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <h3 class="text-sm font-semibold text-white mb-3">Quick Start</h3>
+          <div class="text-xs text-slate-400 leading-relaxed space-y-1">
+            <p>1. Make sure the service is running: <code class="mono bg-slate-800 px-1.5 py-0.5 rounded text-deloitte-400">make dev</code></p>
+            <p>2. Click through each step in the sidebar, or use the button below for a full walkthrough</p>
+            <p>3. Steps 1-6 are the <strong class="text-deloitte-400">admin perspective</strong> — Steps 7-10 switch to the <strong class="text-sky-400">partner perspective</strong></p>
+          </div>
+        </div>
+
+        <button onclick="runFullDemo()" id="btn-full-demo" class="w-full px-5 py-3.5 bg-deloitte-500 hover:bg-deloitte-600 text-white text-sm font-semibold rounded-xl transition-colors shadow-lg shadow-deloitte-500/20">
+          Run Full Demo (All Steps)
+        </button>
+        <div id="full-demo-progress" class="hidden mt-4 bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <div class="text-xs text-slate-500 uppercase tracking-wider mb-3">Demo Progress</div>
+          <div id="full-demo-steps" class="space-y-2"></div>
+        </div>
+      </section>
+
+      <!-- ═══ STEP 1: PROVISION ═══ -->
+      <section id="page-provision" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 1 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Provision a Partner Workspace</h2>
+          <p class="text-slate-400">Creates an isolated workspace with collections, environments, and an invite policy &mdash; all in one API call.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/workspace</div>
+              <div class="text-sm text-slate-300">Provision Coca-Cola UK workspace via team-cpg</div>
+            </div>
+            <button onclick="runProvision()" id="btn-provision" class="px-4 py-2 bg-deloitte-500 hover:bg-deloitte-600 text-white text-sm font-medium rounded-lg transition-colors">Run Provision</button>
+          </div>
+          <pre class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800"><code>{
+  "partner_name": "Coca-Cola UK",
+  "partner_domains": ["coca-cola.com"],
+  "api_package_ids": ["col-cloud-v3-uid"],
+  "update_mode": "manual",
+  "workspace_policy": "standard",
+  "requested_by": "developer@deloitte.com",
+  "team_id": "team-cpg"
+}</code></pre>
+          <div class="text-[10px] text-slate-600 mt-2">Dev mode user: developer@deloitte.com (admin + provisioner roles)</div>
+        </div>
+        <div id="result-provision" class="hidden"></div>
+        <div class="flex justify-end mt-6"><button onclick="goTo('guardrails')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg transition-colors">Next: Domain Guardrails &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 2: GUARDRAILS ═══ -->
+      <section id="page-guardrails" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 2 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Domain Guardrails</h2>
+          <p class="text-slate-400">The policy engine blocks free email domains, enforces team-specific allowlists, and requires single-partner workspaces.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">BLOCKED</span><span class="text-sm text-slate-300">gmail.com (free email provider)</span></div></div><button onclick="runGuardrail('gmail')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Test</button></div>
+          <div id="result-gmail" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300">randomcorp.com (not in any allowlist)</span></div></div><button onclick="runGuardrail('unknown')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
+          <div id="result-unknown" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300">coca-cola.com via team-automotive (wrong team)</span></div></div><button onclick="runGuardrail('wrongteam')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
+          <div id="result-wrongteam" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300">coca-cola.com + pepsi.com (single-partner rule)</span></div></div><button onclick="runGuardrail('multi')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
+          <div id="result-multi" class="hidden"></div>
+        </div>
+        <button onclick="runAllGuardrails()" class="w-full px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700 mb-4">Run All Guardrail Tests</button>
+        <div class="flex justify-between mt-6">
+          <button onclick="goTo('provision')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Provision</button>
+          <button onclick="goTo('invite')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">Next: Invite Guard &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ═══ STEP 3: INVITE GUARD ═══ -->
+      <section id="page-invite" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 3 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Invite Guard</h2>
+          <p class="text-slate-400">Every provisioned workspace gets an invite policy. Invites are domain-scoped &mdash; no one can invite gmail.com even with admin access.</p>
+        </div>
+        <div id="invite-prereq" class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 mb-4 text-sm text-amber-300 hidden">Provision a workspace first (Step 1). <button onclick="goTo('provision')" class="ml-2 underline">Go to Step 1</button></div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /invite/workspace/:id/policy</div><div class="text-sm text-slate-300">View auto-created invite policy</div></div><button onclick="runInvite('policy')" class="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-medium rounded-lg transition-colors border border-blue-500/20">View Policy</button></div>
+          <div id="result-invite-policy" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">ALLOWED</span><span class="text-sm text-slate-300">Invite bob@coca-cola.com (partner domain)</span></div><button onclick="runInvite('allowed')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Send Invite</button></div>
+          <div id="result-invite-allowed" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">BLOCKED</span><span class="text-sm text-slate-300">Invite hacker@gmail.com (free email)</span></div><button onclick="runInvite('blocked')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Try Invite</button></div>
+          <div id="result-invite-blocked" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">PARTIAL</span><span class="text-sm text-slate-300">Mixed: legit@coca-cola.com + bad@yahoo.com</span></div><button onclick="runInvite('mixed')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Send Mixed</button></div>
+          <div id="result-invite-mixed" class="hidden"></div>
+        </div>
+        <div class="flex justify-between mt-6"><button onclick="goTo('guardrails')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Guardrails</button><button onclick="goTo('compliance')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">Next: Compliance &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 4: COMPLIANCE ═══ -->
+      <section id="page-compliance" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 4 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Compliance Guardrails</h2>
+          <p class="text-slate-400">The security floor: global rules that no one can go below, plus team overrides that can only tighten.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /compliance/rules</div><div class="text-sm text-slate-300">Global compliance rules (security floor)</div></div><button onclick="runCompliance('global')" class="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-medium rounded-lg transition-colors border border-emerald-500/20">Load Rules</button></div>
+          <div id="result-compliance-global" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /compliance/rules/team-hosting</div><div class="text-sm text-slate-300">Team override: US Hosting Services (stricter)</div></div><button onclick="runCompliance('team')" class="px-3 py-1.5 bg-violet-500/10 hover:bg-violet-500/20 text-violet-400 text-xs font-medium rounded-lg transition-colors border border-violet-500/20">Load Team Rules</button></div>
+          <div id="result-compliance-team" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">POST /compliance/check/workspace</div><div class="text-sm text-slate-300">Check a badly-configured workspace (expect violations)</div></div><button onclick="runCompliance('violation')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Check Violations</button></div>
+          <div id="result-compliance-violation" class="hidden"></div>
+        </div>
+        <div class="flex justify-between mt-6"><button onclick="goTo('invite')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Invite Guard</button><button onclick="goTo('protection')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">Next: Collection Protection &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 5: COLLECTION PROTECTION ═══ -->
+      <section id="page-protection" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 5 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Collection Protection &amp; PR Workflow</h2>
+          <p class="text-slate-400">Branch protection for Postman: protect a collection, fork it, submit a PR, get it reviewed, and merge.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">POST /collections/protect</div><div class="text-sm text-slate-300">Protect the Cloud Platform APIs v3 collection</div></div><button onclick="runProtection('protect')" class="px-3 py-1.5 bg-violet-500/10 hover:bg-violet-500/20 text-violet-400 text-xs font-medium rounded-lg transition-colors border border-violet-500/20">Protect Collection</button></div>
+          <div id="result-protect" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">POST /collections/pr</div><div class="text-sm text-slate-300">Create a PR: "Add OAuth2 headers to all endpoints"</div></div><button onclick="runProtection('pr')" class="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-medium rounded-lg transition-colors border border-blue-500/20">Create PR</button></div>
+          <div id="result-pr" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">POST /collections/pr/:id/review</div><div class="text-sm text-slate-300">Review the PR (self-review blocked)</div></div><button onclick="runProtection('review')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Review PR</button></div>
+          <div id="result-review" class="hidden"></div>
+        </div>
+        <div class="flex justify-between mt-6"><button onclick="goTo('compliance')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Compliance</button><button onclick="goTo('audit')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">Next: Audit Trail &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 6: AUDIT ═══ -->
+      <section id="page-audit" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-deloitte-500/10 text-deloitte-400">Admin</span><span class="mono">Step 6 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Audit Trail</h2>
+          <p class="text-slate-400">Every action is logged with full context. Query by action, actor, or provision ID.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /audit/logs</div><div class="text-sm text-slate-300">All audit events (newest first)</div></div><button onclick="runAudit('all')" class="px-3 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-xs font-medium rounded-lg transition-colors border border-cyan-500/20">Load Audit Log</button></div>
+          <div id="result-audit-all" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /audit/provision/:id</div><div class="text-sm text-slate-300">Provision audit trail (step-by-step)</div></div><button onclick="runAudit('provision')" class="px-3 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-xs font-medium rounded-lg transition-colors border border-cyan-500/20">Load Trail</button></div>
+          <div id="result-audit-provision" class="hidden"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3"><div><div class="text-xs font-medium text-slate-500 mb-1">GET /audit/logs?action=invite.rejected</div><div class="text-sm text-slate-300">Filter: only rejected invites</div></div><button onclick="runAudit('rejected')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Show Rejections</button></div>
+          <div id="result-audit-rejected" class="hidden"></div>
+        </div>
+        <div class="flex justify-between mt-6"><button onclick="goTo('protection')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Collection Protection</button><button onclick="goTo('partner-home')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors">Switch to Partner View &rarr;</button></div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- ═══ PARTNER / SUB-ORG EXPERIENCE ═══════════════════ -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+
+      <!-- ═══ STEP 7: PARTNER HOME ═══ -->
+      <section id="page-partner-home" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 7 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">My Workspace</h2>
+          <p class="text-slate-400">You are now <strong class="text-sky-400">Coca-Cola UK</strong>. This is what your team sees when they open their provisioned Postman workspace.</p>
+        </div>
+
+        <div class="bg-sky-500/5 border border-sky-500/20 rounded-xl p-4 mb-6 text-sm text-sky-300">
+          <div class="flex items-center gap-2 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><strong>Persona switch:</strong></div>
+          You're no longer the Deloitte admin. You're a partner team member who just received access to a provisioned workspace. Everything below shows what you can do &mdash; and what you can't.
+        </div>
+
+        <!-- Workspace overview -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">GET /provision/status/:id</div><div class="text-sm text-slate-300">View my workspace details &amp; what was provisioned for me</div></div>
+            <button onclick="runPartnerHome('status')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">View My Workspace</button>
+          </div>
+          <div id="result-partner-status" class="hidden"></div>
+        </div>
+
+        <!-- My invite policy -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">GET /invite/workspace/:id/policy</div><div class="text-sm text-slate-300">See my workspace's invite rules (who can I bring in?)</div></div>
+            <button onclick="runPartnerHome('policy')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">View Invite Rules</button>
+          </div>
+          <div id="result-partner-policy" class="hidden"></div>
+        </div>
+
+        <!-- My compliance status -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">GET /compliance/rules/team-cpg</div><div class="text-sm text-slate-300">Compliance rules my workspace must follow</div></div>
+            <button onclick="runPartnerHome('compliance')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">View My Rules</button>
+          </div>
+          <div id="result-partner-compliance" class="hidden"></div>
+        </div>
+
+        <!-- Protection rules on my collections -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">GET /collections/workspace/:id/rules</div><div class="text-sm text-slate-300">Which collections are protected? What do I need to do to change them?</div></div>
+            <button onclick="runPartnerHome('rules')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">View Protection Rules</button>
+          </div>
+          <div id="result-partner-rules" class="hidden"></div>
+        </div>
+
+        <div class="flex justify-between mt-6"><button onclick="goTo('audit')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Audit Trail</button><button onclick="goTo('partner-invite')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Invite My Team &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 8: PARTNER INVITE ═══ -->
+      <section id="page-partner-invite" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 8 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Invite My Team</h2>
+          <p class="text-slate-400">As a Coca-Cola partner, I can invite my colleagues &mdash; but only from approved domains. The guardrails protect me from mistakes.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">I CAN</span><span class="text-sm text-slate-300">Invite sarah@coca-cola.com to collaborate</span></div>
+            <button onclick="runPartnerInvite('good')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Invite Colleague</button>
+          </div>
+          <div id="result-pi-good" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">I CAN</span><span class="text-sm text-slate-300">Invite a Deloitte consultant (deloitte.com)</span></div>
+            <button onclick="runPartnerInvite('deloitte')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Invite Consultant</button>
+          </div>
+          <div id="result-pi-deloitte" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">I CAN'T</span><span class="text-sm text-slate-300">Invite my friend's personal gmail (blocked)</span></div>
+            <button onclick="runPartnerInvite('gmail')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Try It</button>
+          </div>
+          <div id="result-pi-gmail" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">I CAN'T</span><span class="text-sm text-slate-300">Invite someone from a competitor (pepsi.com)</span></div>
+            <button onclick="runPartnerInvite('competitor')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Try It</button>
+          </div>
+          <div id="result-pi-competitor" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-[10px] font-medium rounded-full">DRY RUN</span><span class="text-sm text-slate-300">Pre-check before sending (UI validation)</span></div>
+            <button onclick="runPartnerInvite('dryrun')" class="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-medium rounded-lg transition-colors border border-blue-500/20">Pre-Check</button>
+          </div>
+          <div id="result-pi-dryrun" class="hidden"></div>
+        </div>
+
+        <div class="flex justify-between mt-6"><button onclick="goTo('partner-home')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; My Workspace</button><button onclick="goTo('partner-pr')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Fork &amp; PR &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 9: PARTNER PR WORKFLOW ═══ -->
+      <section id="page-partner-pr" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 9 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Fork &amp; PR Workflow</h2>
+          <p class="text-slate-400">Protected collections can't be edited directly. As a partner, I fork, make changes, and submit a PR for review &mdash; just like GitHub.</p>
+        </div>
+
+        <div class="bg-sky-500/5 border border-sky-500/20 rounded-xl p-4 mb-6">
+          <div class="flex gap-4 text-xs text-slate-400">
+            <div class="flex items-center gap-1.5"><span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center text-[10px] font-bold">1</span> Fork collection</div>
+            <div class="text-slate-700">&rarr;</div>
+            <div class="flex items-center gap-1.5"><span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center text-[10px] font-bold">2</span> Make changes</div>
+            <div class="text-slate-700">&rarr;</div>
+            <div class="flex items-center gap-1.5"><span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center text-[10px] font-bold">3</span> Submit PR</div>
+            <div class="text-slate-700">&rarr;</div>
+            <div class="flex items-center gap-1.5"><span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center text-[10px] font-bold">4</span> Get reviewed</div>
+            <div class="text-slate-700">&rarr;</div>
+            <div class="flex items-center gap-1.5"><span class="w-6 h-6 rounded-full bg-deloitte-500/20 text-deloitte-400 flex items-center justify-center text-[10px] font-bold">5</span> Merge</div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">POST /collections/pr</div><div class="text-sm text-slate-300">Submit PR: "Update API error codes for UK standards"</div></div>
+            <button onclick="runPartnerPR('create')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">Submit PR</button>
+          </div>
+          <div id="result-ppr-create" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">GET /collections/pr/:id</div><div class="text-sm text-slate-300">Check my PR status (waiting for review?)</div></div>
+            <button onclick="runPartnerPR('check')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">Check Status</button>
+          </div>
+          <div id="result-ppr-check" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div><div class="text-xs font-medium text-slate-500 mb-1">GET /collections/workspace/:id/prs</div><div class="text-sm text-slate-300">View all PRs in my workspace</div></div>
+            <button onclick="runPartnerPR('list')" class="px-3 py-1.5 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-medium rounded-lg transition-colors border border-sky-500/20">List All PRs</button>
+          </div>
+          <div id="result-ppr-list" class="hidden"></div>
+        </div>
+
+        <div class="flex justify-between mt-6"><button onclick="goTo('partner-invite')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Invite My Team</button><button onclick="goTo('partner-limits')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Guardrails in Action &rarr;</button></div>
+      </section>
+
+      <!-- ═══ STEP 10: PARTNER LIMITS ═══ -->
+      <section id="page-partner-limits" class="page hidden">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 10 of 10</span></div>
+          <h2 class="text-2xl font-bold text-white mb-1">Guardrails in Action</h2>
+          <p class="text-slate-400">As a partner, these are the things the platform prevents me from doing &mdash; protecting Deloitte's IP and compliance posture.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">BLOCKED</span><span class="text-sm text-slate-300">Try to self-review my own PR</span></div>
+            <button onclick="runPartnerLimits('selfreview')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Try It</button>
+          </div>
+          <div id="result-pl-selfreview" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">BLOCKED</span><span class="text-sm text-slate-300">Try to merge without approval</span></div>
+            <button onclick="runPartnerLimits('mergeblocked')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Try It</button>
+          </div>
+          <div id="result-pl-mergeblocked" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">BLOCKED</span><span class="text-sm text-slate-300">Attempt a public workspace (compliance violation)</span></div>
+            <button onclick="runPartnerLimits('public')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Check</button>
+          </div>
+          <div id="result-pl-public" class="hidden"></div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">ALLOWED</span><span class="text-sm text-slate-300">A properly configured workspace passes compliance</span></div>
+            <button onclick="runPartnerLimits('compliant')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Check</button>
+          </div>
+          <div id="result-pl-compliant" class="hidden"></div>
+        </div>
+
+        <div class="bg-deloitte-500/5 border border-deloitte-500/20 rounded-xl p-5 mt-6">
+          <div class="text-sm font-semibold text-white mb-2">Demo Complete</div>
+          <p class="text-xs text-slate-400 leading-relaxed">You've seen the full lifecycle: Deloitte admins provision and govern, downstream partners self-serve within guardrails. Every action is audited, every invite is domain-checked, every collection change goes through PR review.</p>
+          <button onclick="goTo('welcome')" class="mt-3 px-4 py-2 bg-deloitte-500 hover:bg-deloitte-600 text-white text-sm font-medium rounded-lg transition-colors">Back to Overview</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const API = 'http://localhost:3000';
+let state = { wsId: null, provId: null, prId: null, partnerPrId: null };
+
+// ── Navigation ─────────────────────────────────────────
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  const el = document.getElementById('page-' + page);
+  if (el) { el.classList.remove('hidden'); el.classList.add('fade-in'); }
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  const nav = document.querySelector(`[data-nav="${page}"]`);
+  if (nav) nav.classList.add('active');
+  if (page === 'invite' && !state.wsId) document.getElementById('invite-prereq').classList.remove('hidden');
+  else if (page === 'invite') document.getElementById('invite-prereq').classList.add('hidden');
+  window.scrollTo(0, 0);
+  document.querySelector('main').scrollTo(0, 0);
+}
+
+// ── API Helper ─────────────────────────────────────────
+async function api(method, path, body) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  const data = await res.json();
+  return { status: res.status, data };
+}
+
+// ── JSON Highlighting ──────────────────────────────────
+function hl(json) {
+  const s = typeof json === 'string' ? json : JSON.stringify(json, null, 2);
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"([^"]+)"(?=\s*:)/g, '"<span class="json-key">$1</span>"')
+    .replace(/:\s*"([^"]*)"(?=[,\n\r\]}])/g, ': "<span class="json-str">$1</span>"')
+    .replace(/:\s*(\d+\.?\d*)(?=[,\n\r\]}])/g, ': <span class="json-num">$1</span>')
+    .replace(/:\s*(true|false)(?=[,\n\r\]}])/g, ': <span class="json-bool">$1</span>')
+    .replace(/:\s*(null)(?=[,\n\r\]}])/g, ': <span class="json-null">$1</span>');
+}
+
+function show(id, status, data, extra = '') {
+  const c = document.getElementById(id);
+  const ok = status < 400;
+  const sc = status < 300 ? 'text-green-400 bg-green-500/10' : status < 400 ? 'text-amber-400 bg-amber-500/10' : 'text-red-400 bg-red-500/10';
+  c.innerHTML = `<div class="fade-in">${extra}<div class="flex items-center gap-2 mb-2"><span class="px-2 py-0.5 rounded text-[10px] font-medium mono ${sc}">HTTP ${status}</span><span class="text-[10px] ${ok?'text-green-400':'text-red-400'}">${ok?'Success':'Blocked / Denied'}</span></div><pre class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800 max-h-80 overflow-y-auto"><code>${hl(data)}</code></pre></div>`;
+  c.classList.remove('hidden');
+}
+
+function badge(id, text) { const el = document.getElementById('badge-' + id); if (el) { el.textContent = text; el.classList.remove('hidden'); } }
+
+// ── Connection ─────────────────────────────────────────
+async function checkConn() {
+  try {
+    const { data } = await api('GET', '/health');
+    document.getElementById('conn-dot').className = 'w-2 h-2 rounded-full bg-green-400';
+    document.getElementById('conn-text').textContent = 'Service connected';
+    document.getElementById('conn-text').className = 'text-green-400';
+    document.getElementById('mode-label').textContent = data.config?.mock_postman_client ? 'Mock mode' : 'Live Postman API';
+  } catch { document.getElementById('conn-dot').className = 'w-2 h-2 rounded-full bg-red-400'; document.getElementById('conn-text').textContent = 'Service not reachable'; document.getElementById('conn-text').className = 'text-red-400'; }
+}
+
+// ── Step 1: Provision ──────────────────────────────────
+async function runProvision() {
+  const btn = document.getElementById('btn-provision'); btn.textContent = 'Provisioning...'; btn.disabled = true;
+  try {
+    const { status, data } = await api('POST', '/provision/workspace', { partner_name:'Coca-Cola UK', partner_domains:['coca-cola.com'], api_package_ids:['col-cloud-v3-uid'], update_mode:'manual', workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' });
+    state.wsId = data?.data?.workspace_id; state.provId = data?.data?.id;
+    const steps = (data?.data?.steps_completed||[]).map(s => `<div class="flex items-center gap-2 text-xs"><span class="${s.status==='completed'?'text-green-400':'text-red-400'}">${s.status==='completed'?'&#10003;':'&#10007;'}</span><span class="text-slate-300">${s.name}</span></div>`).join('');
+    show('result-provision', status, data, `<div class="bg-slate-800/50 rounded-lg p-3 mb-3 space-y-1.5"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Pipeline Steps</div>${steps}</div>`);
+    badge('provision', 'Done'); btn.textContent = 'Re-run';
+  } catch(e) { show('result-provision', 0, {error:e.message}); btn.textContent = 'Run Provision'; }
+  btn.disabled = false;
+}
+
+// ── Step 2: Guardrails ─────────────────────────────────
+const gPayloads = {
+  gmail: { partner_name:'Evil Corp', partner_domains:['gmail.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' },
+  unknown: { partner_name:'Random Corp', partner_domains:['randomcorp.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' },
+  wrongteam: { partner_name:'Wrong Team', partner_domains:['coca-cola.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-automotive' },
+  multi: { partner_name:'Multi Domain', partner_domains:['coca-cola.com','pepsi.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' },
+};
+async function runGuardrail(t) { const {status,data}=await api('POST','/provision/workspace',gPayloads[t]); const e=data?.data?.error||data?.error?.message||''; show('result-'+t,status,data,e?`<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">${e}</div>`:''); }
+async function runAllGuardrails() { for (const t of ['gmail','unknown','wrongteam','multi']) await runGuardrail(t); badge('guardrails','4 tested'); }
+
+// ── Step 3: Invite Guard ───────────────────────────────
+async function runInvite(t) {
+  if(!state.wsId&&t!=='policy'){document.getElementById('invite-prereq').classList.remove('hidden');return;} const ws=state.wsId||'ws-unknown'; let r;
+  if(t==='policy') r=await api('GET',`/invite/workspace/${ws}/policy`);
+  else if(t==='allowed') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:'bob@coca-cola.com',role:'viewer'}]});
+  else if(t==='blocked') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:'hacker@gmail.com',role:'viewer'}]});
+  else if(t==='mixed') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:'legit@coca-cola.com',role:'editor'},{email:'bad@yahoo.com',role:'viewer'}]});
+  show('result-invite-'+t,r.status,r.data); badge('invite','Tested');
+}
+
+// ── Step 4: Compliance ─────────────────────────────────
+async function runCompliance(t) {
+  let r;
+  if(t==='global'){r=await api('GET','/compliance/rules'); const rules=r.data?.data?.rules||[]; const h=rules.map(r=>{const s=r.severity==='critical'?'bg-red-500/10 text-red-400':r.severity==='high'?'bg-amber-500/10 text-amber-400':'bg-blue-500/10 text-blue-400'; return`<div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-800/50 last:border-0"><span class="text-slate-300">${r.description}</span><span class="px-2 py-0.5 rounded-full ${s} text-[10px] font-medium">${r.severity}</span></div>`;}).join(''); show('result-compliance-global',r.status,r.data,`<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">${rules.length} Rules</div>${h}</div>`);}
+  else if(t==='team'){r=await api('GET','/compliance/rules/team-hosting'); show('result-compliance-team',r.status,r.data);}
+  else if(t==='violation'){r=await api('POST','/compliance/check/workspace',{workspace_id:'ws-bad',workspace_type:'partner',has_public_collections:true,has_public_mock_servers:true,has_unstripped_secrets:true,member_count:150,has_fork_workflow:false,has_direct_collection_creation:true,has_valid_spec:false,has_security_schemes:false,has_sso_enabled:false}); const v=r.data?.data?.violations||[]; const h=v.map(v=>{const s=v.severity==='critical'?'border-red-500/30 bg-red-500/5':v.severity==='high'?'border-amber-500/30 bg-amber-500/5':'border-blue-500/30 bg-blue-500/5'; return`<div class="border ${s} rounded-lg p-2.5 text-xs"><div class="font-medium text-white mb-0.5">${v.rule}</div><div class="text-slate-400">${v.message}</div><div class="text-slate-500 mt-1 italic">${v.remediation||''}</div></div>`;}).join(''); show('result-compliance-violation',r.status,r.data,v.length?`<div class="space-y-2 mb-3"><div class="text-[10px] text-red-400 uppercase tracking-wider">${v.length} Violations</div>${h}</div>`:'');}
+  badge('compliance','Loaded');
+}
+
+// ── Step 5: Collection Protection ──────────────────────
+async function runProtection(t) {
+  const ws=state.wsId||'ws-demo-001';
+  if(t==='protect'){const{status,data}=await api('POST','/collections/protect',{collection_uid:'col-cloud-v3-uid',workspace_id:ws,collection_name:'Cloud Platform APIs v3',required_approvals:1,designated_reviewers:['reviewer@deloitte.com'],designated_mergers:['admin@deloitte.com'],block_direct_edits:true,require_description:true}); show('result-protect',status,data); badge('protection','Protected');}
+  else if(t==='pr'){const{status,data}=await api('POST','/collections/pr',{source_collection_uid:'partner-fork-uid',target_collection_uid:'col-cloud-v3-uid',workspace_id:ws,title:'Add OAuth2 headers to all endpoints',description:'Added Bearer token auth headers as required by the new security policy.'}); state.prId=data?.data?.id; show('result-pr',status,data);}
+  else if(t==='review'){if(!state.prId){show('result-review',0,{error:'Create a PR first'});return;} const{status,data}=await api('POST',`/collections/pr/${state.prId}/review`,{action:'approve',comment:'LGTM'}); const m=data?.error?.message||''; show('result-review',status,data,m.includes('own pull request')?`<div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-3 text-xs text-amber-300">Expected: Self-review is blocked. In production, a different user (reviewer@deloitte.com) would approve.</div>`:'');}
+}
+
+// ── Step 6: Audit ──────────────────────────────────────
+async function runAudit(t) {
+  let r;
+  if(t==='all'){r=await api('GET','/audit/logs?limit=20'); const e=r.data?.data||[]; const h=e.map(e=>{const c=e.action?.includes('failed')||e.action?.includes('rejected')?'text-red-400':e.action?.includes('completed')||e.action?.includes('sent')?'text-green-400':'text-blue-400'; return`<div class="flex items-center gap-3 text-xs py-2 border-b border-slate-800/50"><span class="mono ${c} w-44 shrink-0">${e.action}</span><span class="text-slate-400 w-48 shrink-0 truncate">${e.actor}</span><span class="text-slate-600 mono text-[10px]">${e.timestamp?.slice(11,19)||''}</span></div>`;}).join(''); show('result-audit-all',r.status,r.data,e.length?`<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">${e.length} Events</div>${h}</div>`:'');}
+  else if(t==='provision'){if(!state.provId){show('result-audit-provision',0,{error:'Provision first (Step 1)'});return;} r=await api('GET',`/audit/provision/${state.provId}`); const e=r.data?.data||[]; const h=e.map(e=>{const c=e.action?.includes('failed')?'text-red-400':'text-green-400'; return`<div class="flex items-center gap-3 text-xs py-2"><span class="${c}">${e.action?.includes('failed')?'&#10007;':'&#10003;'}</span><span class="text-slate-300">${e.action}</span><span class="text-slate-600 mono text-[10px] ml-auto">${e.timestamp?.slice(11,19)||''}</span></div>`;}).join(''); show('result-audit-provision',r.status,r.data,e.length?`<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Provision Timeline</div>${h}</div>`:'');}
+  else if(t==='rejected'){r=await api('GET','/audit/logs?action=invite.rejected'); show('result-audit-rejected',r.status,r.data);}
+  badge('audit','Loaded');
+}
+
+// ═══════════════════════════════════════════════════════
+// PARTNER / SUB-ORG EXPERIENCE
+// ═══════════════════════════════════════════════════════
+
+// ── Step 7: Partner Home ───────────────────────────────
+async function runPartnerHome(t) {
+  const ws = state.wsId;
+  if (t === 'status') {
+    if (!state.provId) { show('result-partner-status', 0, { error: 'Run Step 1 first to provision a workspace' }); return; }
+    const { status, data } = await api('GET', `/provision/status/${state.provId}`);
+    const d = data?.data;
+    if (d) {
+      const summary = `<div class="bg-sky-500/5 border border-sky-500/10 rounded-lg p-4 mb-3 space-y-2">
+        <div class="flex items-center justify-between"><span class="text-xs text-slate-500">Workspace</span><span class="text-sm font-medium text-white">${d.partner_name}</span></div>
+        <div class="flex items-center justify-between"><span class="text-xs text-slate-500">Workspace ID</span><span class="text-xs mono text-sky-400">${d.workspace_id||'N/A'}</span></div>
+        <div class="flex items-center justify-between"><span class="text-xs text-slate-500">Status</span><span class="text-xs px-2 py-0.5 rounded-full bg-green-500/10 text-green-400">${d.status}</span></div>
+        <div class="flex items-center justify-between"><span class="text-xs text-slate-500">APIs Included</span><span class="text-xs mono text-slate-300">${(d.api_package_ids||[]).join(', ')}</span></div>
+        <div class="flex items-center justify-between"><span class="text-xs text-slate-500">My Domains</span><span class="text-xs text-slate-300">${(d.partner_domains||[]).join(', ')}</span></div>
+        <div class="flex items-center justify-between"><span class="text-xs text-slate-500">Update Mode</span><span class="text-xs text-slate-300">${d.update_mode}</span></div>
+      </div>`;
+      show('result-partner-status', status, data, summary);
+    } else { show('result-partner-status', status, data); }
+    badge('partner-home', 'Loaded');
+  } else if (t === 'policy') {
+    if (!ws) { show('result-partner-policy', 0, { error: 'Run Step 1 first' }); return; }
+    const { status, data } = await api('GET', `/invite/workspace/${ws}/policy`);
+    const p = data?.data;
+    if (p) {
+      const domains = (p.allowed_invite_domains || []).map(d => {
+        const isPartner = d === 'coca-cola.com';
+        const isDeloitte = d.includes('deloitte');
+        const cls = isPartner ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' : isDeloitte ? 'bg-deloitte-500/10 text-deloitte-400 border-deloitte-500/20' : 'bg-slate-800 text-slate-400 border-slate-700';
+        const label = isPartner ? 'My domain' : isDeloitte ? 'Deloitte' : '';
+        return `<span class="inline-flex items-center gap-1 px-2 py-1 rounded border text-[10px] ${cls}">${d}${label ? ` <span class="text-[8px] opacity-60">(${label})</span>` : ''}</span>`;
+      }).join(' ');
+      show('result-partner-policy', status, data, `<div class="bg-sky-500/5 border border-sky-500/10 rounded-lg p-4 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Domains I Can Invite From</div><div class="flex flex-wrap gap-1.5">${domains}</div></div>`);
+    } else { show('result-partner-policy', status, data); }
+  } else if (t === 'compliance') {
+    const { status, data } = await api('GET', '/compliance/rules/team-cpg');
+    const rules = data?.data?.rules || [];
+    const html = rules.map(r => {
+      const sev = r.severity === 'critical' ? 'text-red-400' : r.severity === 'high' ? 'text-amber-400' : 'text-blue-400';
+      return `<div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-800/50"><span class="text-slate-300">${r.description}</span><span class="${sev} text-[10px]">${r.severity}</span></div>`;
+    }).join('');
+    show('result-partner-compliance', status, data, rules.length ? `<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">${rules.length} Rules Apply to My Workspace</div>${html}</div>` : '');
+  } else if (t === 'rules') {
+    if (!ws) { show('result-partner-rules', 0, { error: 'Run Step 1 first' }); return; }
+    const { status, data } = await api('GET', `/collections/workspace/${ws}/rules`);
+    const rules = data?.data || [];
+    if (rules.length) {
+      const html = rules.map(r => `<div class="bg-violet-500/5 border border-violet-500/10 rounded-lg p-3 text-xs space-y-1">
+        <div class="font-medium text-white">${r.collection_name}</div>
+        <div class="text-slate-400">Required approvals: <span class="text-violet-400">${r.required_approvals}</span></div>
+        <div class="text-slate-400">Direct edits: <span class="${r.block_direct_edits?'text-red-400':'text-green-400'}">${r.block_direct_edits?'Blocked':'Allowed'}</span></div>
+        <div class="text-slate-400">Reviewers: <span class="text-slate-300">${(r.designated_reviewers||[]).join(', ')}</span></div>
+      </div>`).join('');
+      show('result-partner-rules', status, data, `<div class="space-y-2 mb-3"><div class="text-[10px] text-violet-400 uppercase tracking-wider">${rules.length} Protected Collection(s)</div>${html}</div>`);
+    } else {
+      show('result-partner-rules', status, data, '<div class="text-xs text-slate-500 mb-3">No collections are protected yet. Run Step 5 first to protect a collection.</div>');
+    }
+  }
+}
+
+// ── Step 8: Partner Invite ─────────────────────────────
+async function runPartnerInvite(t) {
+  const ws = state.wsId;
+  if (!ws) { show('result-pi-' + t, 0, { error: 'Run Step 1 first' }); return; }
+  let r;
+  if (t === 'good') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'sarah@coca-cola.com', role: 'editor' }] });
+  else if (t === 'deloitte') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'consultant@deloitte.com', role: 'viewer' }] });
+  else if (t === 'gmail') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'friend@gmail.com', role: 'viewer' }] });
+  else if (t === 'competitor') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'spy@pepsi.com', role: 'viewer' }] });
+  else if (t === 'dryrun') r = await api('POST', `/invite/workspace/${ws}/check`, { invitees: [{ email: 'ok@coca-cola.com', role: 'viewer' }, { email: 'nope@hotmail.com', role: 'viewer' }] });
+
+  const ok = r.status < 400;
+  const extra = ok
+    ? `<div class="bg-green-500/5 border border-green-500/10 rounded-lg p-3 mb-3 text-xs text-green-300">Invite sent successfully &mdash; domain is in the allowlist.</div>`
+    : `<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">Blocked by invite policy &mdash; domain is not allowed for this workspace.</div>`;
+  show('result-pi-' + t, r.status, r.data, t === 'dryrun' ? '' : extra);
+  badge('partner-invite', 'Tested');
+}
+
+// ── Step 9: Partner PR ─────────────────────────────────
+async function runPartnerPR(t) {
+  const ws = state.wsId || 'ws-demo-001';
+  if (t === 'create') {
+    const { status, data } = await api('POST', '/collections/pr', {
+      source_collection_uid: 'partner-fork-uid', target_collection_uid: 'col-cloud-v3-uid',
+      workspace_id: ws, title: 'Update API error codes for UK standards',
+      description: 'Updated error response codes to align with UK API Design Standards v2. Includes mapping from HTTP 422 to domain-specific error codes.',
+    });
+    state.partnerPrId = data?.data?.id;
+    show('result-ppr-create', status, data, `<div class="bg-sky-500/5 border border-sky-500/10 rounded-lg p-3 mb-3 text-xs text-sky-300">PR submitted. Now waiting for a designated reviewer (reviewer@deloitte.com) to approve before it can be merged.</div>`);
+    badge('partner-pr', 'PR Open');
+  } else if (t === 'check') {
+    if (!state.partnerPrId) { show('result-ppr-check', 0, { error: 'Submit a PR first' }); return; }
+    const { status, data } = await api('GET', `/collections/pr/${state.partnerPrId}`);
+    const pr = data?.data;
+    if (pr) {
+      const statusColor = pr.status === 'open' ? 'bg-blue-500/10 text-blue-400' : pr.status === 'approved' ? 'bg-green-500/10 text-green-400' : pr.status === 'merged' ? 'bg-violet-500/10 text-violet-400' : 'bg-red-500/10 text-red-400';
+      show('result-ppr-check', status, data, `<div class="bg-slate-800/50 rounded-lg p-3 mb-3 text-xs space-y-1.5"><div class="flex items-center justify-between"><span class="text-slate-500">Title</span><span class="text-white">${pr.title}</span></div><div class="flex items-center justify-between"><span class="text-slate-500">Status</span><span class="px-2 py-0.5 rounded-full ${statusColor} text-[10px]">${pr.status}</span></div><div class="flex items-center justify-between"><span class="text-slate-500">Created by</span><span class="text-slate-300">${pr.created_by}</span></div></div>`);
+    } else { show('result-ppr-check', status, data); }
+  } else if (t === 'list') {
+    const { status, data } = await api('GET', `/collections/workspace/${ws}/prs`);
+    const prs = data?.data || [];
+    const html = prs.map(p => {
+      const c = p.status === 'open' ? 'text-blue-400' : p.status === 'merged' ? 'text-violet-400' : 'text-red-400';
+      return `<div class="flex items-center gap-3 text-xs py-2 border-b border-slate-800/50"><span class="${c} w-16 shrink-0">${p.status}</span><span class="text-slate-300 flex-1">${p.title}</span><span class="text-slate-600 mono text-[10px]">${p.created_by}</span></div>`;
+    }).join('');
+    show('result-ppr-list', status, data, prs.length ? `<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">${prs.length} Pull Request(s)</div>${html}</div>` : '');
+  }
+}
+
+// ── Step 10: Partner Limits ────────────────────────────
+async function runPartnerLimits(t) {
+  if (t === 'selfreview') {
+    const prId = state.partnerPrId || state.prId;
+    if (!prId) { show('result-pl-selfreview', 0, { error: 'Submit a PR first (Step 5 or 9)' }); return; }
+    const { status, data } = await api('POST', `/collections/pr/${prId}/review`, { action: 'approve', comment: 'Looks good to me!' });
+    show('result-pl-selfreview', status, data, `<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">Self-review is blocked. You can't approve your own PR &mdash; a separate reviewer must approve it. This prevents unreviewed changes from reaching production collections.</div>`);
+    badge('partner-limits', 'Tested');
+  } else if (t === 'mergeblocked') {
+    const prId = state.partnerPrId || state.prId;
+    if (!prId) { show('result-pl-mergeblocked', 0, { error: 'Submit a PR first' }); return; }
+    const { status, data } = await api('POST', `/collections/pr/${prId}/merge`, { strategy: 'merge' });
+    show('result-pl-mergeblocked', status, data, `<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">Merge blocked. The PR needs at least 1 approval before it can be merged. This ensures every change to a protected collection goes through review.</div>`);
+  } else if (t === 'public') {
+    const { status, data } = await api('POST', '/compliance/check/workspace', {
+      workspace_id: state.wsId || 'ws-partner-001', workspace_type: 'partner',
+      has_public_collections: true, has_public_mock_servers: true, has_unstripped_secrets: false,
+      member_count: 10, has_fork_workflow: true, has_direct_collection_creation: false,
+      has_valid_spec: true, has_security_schemes: true, has_sso_enabled: true,
+    });
+    const v = data?.data?.violations || [];
+    show('result-pl-public', status, data, `<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">${v.length} violation(s): Even with everything else correct, public collections and mock servers are <strong>always blocked</strong> by the global security floor. No team override can loosen this.</div>`);
+  } else if (t === 'compliant') {
+    const { status, data } = await api('POST', '/compliance/check/workspace', {
+      workspace_id: state.wsId || 'ws-partner-001', workspace_type: 'partner',
+      has_public_collections: false, has_public_mock_servers: false, has_unstripped_secrets: false,
+      member_count: 10, has_fork_workflow: true, has_direct_collection_creation: false,
+      has_valid_spec: true, has_security_schemes: true, has_sso_enabled: true,
+    });
+    const ok = data?.data?.compliant;
+    show('result-pl-compliant', status, data, `<div class="${ok ? 'bg-green-500/5 border-green-500/10 text-green-300' : 'bg-red-500/5 border-red-500/10 text-red-300'} border rounded-lg p-3 mb-3 text-xs">${ok ? 'All clear! This workspace configuration meets every compliance rule. Partners can work freely within these boundaries.' : 'Some violations remain.'}</div>`);
+  }
+}
+
+// ── Full Demo ──────────────────────────────────────────
+async function runFullDemo() {
+  const btn=document.getElementById('btn-full-demo'); const prog=document.getElementById('full-demo-progress'); const stepsEl=document.getElementById('full-demo-steps');
+  btn.disabled=true; btn.textContent='Running...'; btn.className=btn.className.replace('bg-deloitte-500 hover:bg-deloitte-600','bg-slate-700'); prog.classList.remove('hidden');
+  const steps=[
+    {name:'Provision Coca-Cola UK workspace',fn:async()=>{goTo('provision');await runProvision();}},
+    {name:'Guardrails: block gmail.com',fn:async()=>{goTo('guardrails');await runGuardrail('gmail');}},
+    {name:'Guardrails: deny unknown domain',fn:async()=>{await runGuardrail('unknown');}},
+    {name:'Guardrails: deny wrong team',fn:async()=>{await runGuardrail('wrongteam');}},
+    {name:'Guardrails: deny multi-domain',fn:async()=>{await runGuardrail('multi');badge('guardrails','4 tested');}},
+    {name:'Invite Guard: view policy',fn:async()=>{goTo('invite');await runInvite('policy');}},
+    {name:'Invite Guard: allowed invite',fn:async()=>{await runInvite('allowed');}},
+    {name:'Invite Guard: blocked invite',fn:async()=>{await runInvite('blocked');}},
+    {name:'Compliance: global rules',fn:async()=>{goTo('compliance');await runCompliance('global');}},
+    {name:'Compliance: team overrides',fn:async()=>{await runCompliance('team');}},
+    {name:'Compliance: violation check',fn:async()=>{await runCompliance('violation');}},
+    {name:'Collection Protection: protect',fn:async()=>{goTo('protection');await runProtection('protect');}},
+    {name:'Collection Protection: create PR',fn:async()=>{await runProtection('pr');}},
+    {name:'Audit Trail: all events',fn:async()=>{goTo('audit');await runAudit('all');}},
+    {name:'Audit Trail: provision timeline',fn:async()=>{await runAudit('provision');}},
+    {name:'[Partner] My workspace overview',fn:async()=>{goTo('partner-home');await runPartnerHome('status');}},
+    {name:'[Partner] My invite rules',fn:async()=>{await runPartnerHome('policy');}},
+    {name:'[Partner] My compliance rules',fn:async()=>{await runPartnerHome('compliance');}},
+    {name:'[Partner] Invite a colleague',fn:async()=>{goTo('partner-invite');await runPartnerInvite('good');}},
+    {name:'[Partner] Invite a Deloitte consultant',fn:async()=>{await runPartnerInvite('deloitte');}},
+    {name:'[Partner] Try inviting gmail (blocked)',fn:async()=>{await runPartnerInvite('gmail');}},
+    {name:'[Partner] Submit a PR',fn:async()=>{goTo('partner-pr');await runPartnerPR('create');}},
+    {name:'[Partner] Check PR status',fn:async()=>{await runPartnerPR('check');}},
+    {name:'[Partner] Try self-review (blocked)',fn:async()=>{goTo('partner-limits');await runPartnerLimits('selfreview');}},
+    {name:'[Partner] Try merge without approval',fn:async()=>{await runPartnerLimits('mergeblocked');}},
+    {name:'[Partner] Compliance: public blocked',fn:async()=>{await runPartnerLimits('public');}},
+    {name:'[Partner] Compliance: clean config passes',fn:async()=>{await runPartnerLimits('compliant');}},
+  ];
+  stepsEl.innerHTML=steps.map((s,i)=>`<div id="ds-${i}" class="flex items-center gap-3 text-xs"><span class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-slate-600 shrink-0 mono text-[10px]">${i+1}</span><span class="text-slate-500">${s.name}</span></div>`).join('');
+  for(let i=0;i<steps.length;i++){const el=document.getElementById(`ds-${i}`);el.querySelector('span:first-child').className='w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 mono text-[10px] pulse';el.querySelector('span:last-child').className='text-slate-300';try{await steps[i].fn();await new Promise(r=>setTimeout(r,350));el.querySelector('span:first-child').className='w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 shrink-0 mono text-[10px]';el.querySelector('span:first-child').innerHTML='&#10003;';el.querySelector('span:last-child').className='text-green-400';}catch(e){el.querySelector('span:first-child').className='w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 shrink-0 mono text-[10px]';el.querySelector('span:first-child').innerHTML='&#10007;';el.querySelector('span:last-child').className='text-red-400';}}
+  btn.textContent='Demo Complete \u2014 Run Again';btn.disabled=false;btn.className=btn.className.replace('bg-slate-700','bg-deloitte-500 hover:bg-deloitte-600');
+}
+
+// ── Init ───────────────────────────────────────────────
+goTo('welcome'); checkConn(); setInterval(checkConn, 10000);
+</script>
+</body>
+</html>

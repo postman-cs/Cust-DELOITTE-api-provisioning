@@ -1,0 +1,45 @@
+{
+  "allowed_domains_global": [
+    "deloitte.com",
+    "deloitte.ca",
+    "deloitte.co.uk"
+  ],
+  "allowed_domains_by_team": {
+    "team-cpg": ["coca-cola.com", "ko.com"],
+    "team-automotive": ["ford.com", "gm.com"],
+    "team-finance": ["jpmorgan.com"]
+  },
+  "single_partner_domain_required": true,
+  "allow_partner_invites": false,
+  "default_update_mode": "manual",
+  "blocked_domains": [
+    "gmail.com",
+    "yahoo.com",
+    "hotmail.com",
+    "outlook.com"
+  ],
+  "max_workspaces_per_team": 10,
+  "workspace_policies": {
+    "standard": {
+      "allow_member_invites": false,
+      "allow_collection_creation": false,
+      "allow_forking": true,
+      "visibility": "partner",
+      "description_suffix": " | Managed by Deloitte API Platform"
+    },
+    "restricted": {
+      "allow_member_invites": false,
+      "allow_collection_creation": false,
+      "allow_forking": false,
+      "visibility": "private",
+      "description_suffix": " | RESTRICTED"
+    },
+    "open-internal": {
+      "allow_member_invites": true,
+      "allow_collection_creation": true,
+      "allow_forking": true,
+      "visibility": "team",
+      "description_suffix": " | Internal"
+    }
+  }
+}

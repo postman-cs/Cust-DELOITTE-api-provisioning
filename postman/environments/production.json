@@ -1,0 +1,25 @@
+{
+  "id": "env-production-001",
+  "name": "Production",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "https://api.internal.deloitte.com/v1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "project_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}
