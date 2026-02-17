@@ -172,11 +172,12 @@
               <div class="w-3 h-3 rounded-full bg-orange-500"></div>
               <div class="text-sm font-semibold text-white">Live Cross-Workspace Provisioning (Step 7)</div>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-3">The real deal: provision from the golden "Deloitte" workspace to a completely separate "Deloitte2" workspace using the live Postman API. Collections, environments, and config — copied in real time. Verify in Postman instantly.</p>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3">Tech-agnostic provisioning: pull collections and environments from <strong class="text-orange-300">three completely different source environments</strong> (AWS, Azure, On-Prem) into a separate workspace via the live Postman API. Verify in Postman instantly.</p>
             <div class="flex flex-wrap gap-1.5">
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-900/50 text-orange-400">Live API</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-900/50 text-orange-400">Cross-Workspace</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-900/50 text-orange-400">Real Assets</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400">AWS Cloud</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">Azure Enterprise</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400">On-Prem Legacy</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400">Cross-Workspace</span>
             </div>
           </div>
         </div>
@@ -372,62 +373,83 @@
         <div class="mb-6">
           <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400">Live</span><span class="mono">Step 7 of 11</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Live Cross-Workspace Provisioning</h2>
-          <p class="text-slate-400">Provision from the golden <strong class="text-deloitte-400">Deloitte</strong> workspace to a completely different <strong class="text-orange-400">Deloitte2</strong> workspace using the real Postman API. Collections, environments, and config are copied in real time.</p>
+          <p class="text-slate-400">Tech-agnostic provisioning: pull collections and environments from <strong class="text-orange-300">completely different source environments</strong> (AWS, Azure, On-Prem) into a target workspace using the real Postman API.</p>
         </div>
 
+        <!-- Key insight callout -->
         <div class="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4 mb-6">
-          <div class="grid grid-cols-2 gap-6 text-xs">
-            <div>
-              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Source (Golden)</div>
-              <div class="text-white font-medium mb-1">Deloitte</div>
-              <div class="text-slate-400 mono text-[10px]">049c773e-979a-4459-bf56-051807af1790</div>
-              <a href="https://go.postman.co/workspace/049c773e-979a-4459-bf56-051807af1790" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-deloitte-400 hover:text-deloitte-300 transition-colors">
-                Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </a>
-            </div>
-            <div>
-              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Target (Partner)</div>
-              <div class="text-white font-medium mb-1">Deloitte2</div>
-              <div class="text-slate-400 mono text-[10px]">897c9214-fccb-4bce-9008-96e6196d44d1</div>
-              <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-orange-400 hover:text-orange-300 transition-colors">
-                Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </a>
-            </div>
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span class="text-sm font-semibold text-white">Why this matters</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">The platform doesn't care where your APIs live. AWS Lambda, Azure APIM, on-prem data centers &mdash; it provisions and governs them all the same way. Each environment below represents a completely different technology stack with its own auth, endpoints, and infrastructure.</p>
+        </div>
+
+        <!-- Workspace info bar -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">Source (Golden Workspace)</div>
+            <div class="text-sm font-medium text-white">Deloitte</div>
+            <div class="text-slate-500 mono text-[10px] mt-0.5">049c773e-...51807af1790</div>
+            <a href="https://go.postman.co/workspace/049c773e-979a-4459-bf56-051807af1790" target="_blank" class="inline-flex items-center gap-1 mt-2 text-[10px] text-deloitte-400 hover:text-deloitte-300">Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+          </div>
+          <div class="bg-slate-900 border border-orange-500/20 rounded-xl p-4">
+            <div class="text-[10px] text-orange-400 uppercase tracking-wider mb-1.5">Target (Partner Workspace)</div>
+            <div class="text-sm font-medium text-white">Deloitte2</div>
+            <div class="text-slate-500 mono text-[10px] mt-0.5">897c9214-...96e6196d44d1</div>
+            <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-1 mt-2 text-[10px] text-orange-400 hover:text-orange-300">Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
           </div>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/live</div>
-              <div class="text-sm text-slate-300">Copy all collections &amp; environments from Deloitte &rarr; Deloitte2</div>
-            </div>
-            <button onclick="runLiveProvision()" id="btn-live-provision" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-orange-500/20">Provision Now</button>
-          </div>
-          <pre class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800"><code>{
-  "target_workspace_id": "897c9214-fccb-4bce-9008-96e6196d44d1",
-  "partner_name": "Deloitte Partner",
-  "copy_collections": true,
-  "copy_environments": true
-}</code></pre>
-          <div class="text-[10px] text-slate-600 mt-2">Uses the real Postman API — assets will appear in the target workspace immediately</div>
+        <!-- Source environment inventory (loaded dynamically) -->
+        <div class="mb-2 flex items-center justify-between">
+          <div class="text-sm font-semibold text-white">Source Environments</div>
+          <button onclick="loadSourceEnvironments()" class="text-[10px] text-slate-500 hover:text-slate-400 transition-colors">Refresh</button>
         </div>
+        <div id="env-inventory" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 text-center text-xs text-slate-500 col-span-3">Loading source environments...</div>
+        </div>
+
+        <!-- Provision controls -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
+          <div class="text-xs font-medium text-slate-500 mb-3">POST /provision/live</div>
+          <div class="flex items-center gap-3 mb-4 flex-wrap">
+            <button onclick="runLiveProvisionEnv('AWS')" id="btn-prov-aws" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-amber-600/20 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-300"></span> Provision AWS
+            </button>
+            <button onclick="runLiveProvisionEnv('Azure')" id="btn-prov-azure" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-blue-600/20 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-300"></span> Provision Azure
+            </button>
+            <button onclick="runLiveProvisionEnv('On-Prem')" id="btn-prov-onprem" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-emerald-600/20 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-300"></span> Provision On-Prem
+            </button>
+            <div class="text-slate-700 text-xs">|</div>
+            <button onclick="runLiveProvisionEnv('all')" id="btn-prov-all" class="px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-orange-500/20 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-orange-300"></span> Provision All Environments
+            </button>
+          </div>
+          <div class="text-[10px] text-slate-600">Each button provisions from a different source environment into the target workspace using the real Postman API. Assets appear in Postman immediately.</div>
+        </div>
+
+        <!-- Provision results -->
         <div id="result-live-provision" class="hidden"></div>
 
         <div id="live-provision-links" class="hidden bg-orange-500/5 border border-orange-500/20 rounded-xl p-5 mb-4">
-          <div class="text-sm font-medium text-white mb-3">Assets Copied Successfully</div>
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-sm font-medium text-white">Assets Provisioned</div>
+            <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium rounded-lg transition-colors">
+              Open Target in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
           <div id="live-provision-assets" class="space-y-2"></div>
-          <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-orange-500/20">
-            Open Target Workspace in Postman
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
         </div>
 
+        <!-- Cleanup -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
           <div class="flex items-center justify-between">
             <div>
               <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/live/cleanup</div>
-              <div class="text-sm text-slate-300">Reset: delete all collections &amp; environments from Deloitte2</div>
+              <div class="text-sm text-slate-300">Reset: remove all provisioned assets from Deloitte2</div>
             </div>
             <button onclick="runLiveCleanup()" id="btn-live-cleanup" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Reset Target Workspace</button>
           </div>
@@ -768,51 +790,101 @@ async function runAudit(t) {
 // ── Step 7: Live Cross-Workspace Provisioning ──────────
 const TARGET_WS = '897c9214-fccb-4bce-9008-96e6196d44d1';
 
-async function runLiveProvision() {
-  const btn = document.getElementById('btn-live-provision');
-  btn.textContent = 'Provisioning (real API)...'; btn.disabled = true;
-  btn.className = btn.className.replace('bg-orange-500 hover:bg-orange-600', 'bg-slate-700');
+const ENV_COLORS = {
+  'AWS':     { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400', dot: 'bg-amber-400', icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' },
+  'Azure':   { bg: 'bg-blue-500/10',  border: 'border-blue-500/20',  text: 'text-blue-400',  dot: 'bg-blue-400',  icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' },
+  'On-Prem': { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-400', dot: 'bg-emerald-400', icon: 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01' },
+};
+
+async function loadSourceEnvironments() {
+  const el = document.getElementById('env-inventory');
+  try {
+    const { data } = await api('GET', '/provision/live/environments');
+    const envs = data?.data?.source_environments || [];
+    el.innerHTML = envs.map(env => {
+      const c = ENV_COLORS[env.tag] || { bg: 'bg-slate-800', border: 'border-slate-700', text: 'text-slate-400', dot: 'bg-slate-500', icon: '' };
+      return `<div class="${c.bg} border ${c.border} rounded-xl p-4 step-card">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2.5 h-2.5 rounded-full ${c.dot}"></span>
+          <span class="text-sm font-semibold text-white">${env.label}</span>
+        </div>
+        <div class="text-[10px] text-slate-500 mb-3">${env.description}</div>
+        <div class="space-y-1.5 text-xs">
+          <div class="${c.text} font-medium text-[10px] uppercase tracking-wider">Collections (${env.collections.length})</div>
+          ${env.collections.map(col => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}">${col.name}</div>`).join('')}
+          <div class="${c.text} font-medium text-[10px] uppercase tracking-wider mt-2">Environments (${env.environments.length})</div>
+          ${env.environments.map(e => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}">${e.name}</div>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="col-span-3 text-xs text-red-400">Failed to load: ${e.message}</div>`;
+  }
+}
+
+async function runLiveProvisionEnv(sourceEnv) {
+  const btnId = sourceEnv === 'all' ? 'btn-prov-all' : `btn-prov-${sourceEnv.toLowerCase().replace('-','')}`;
+  const btn = document.getElementById(btnId);
+  const origText = btn.textContent;
+  btn.textContent = 'Provisioning...'; btn.disabled = true;
+
   try {
     const { status, data } = await api('POST', '/provision/live', {
       target_workspace_id: TARGET_WS,
-      partner_name: 'Deloitte Partner',
-      copy_collections: true,
-      copy_environments: true,
+      partner_name: 'Coca-Cola UK',
+      source_environment: sourceEnv,
     });
     const d = data?.data;
     if (d && d.steps) {
       const stepsHtml = d.steps.map(s => {
         const c = s.status === 'completed' ? 'text-green-400' : s.status === 'failed' ? 'text-red-400' : 'text-slate-500';
         const icon = s.status === 'completed' ? '&#10003;' : s.status === 'failed' ? '&#10007;' : '&#8212;';
-        return `<div class="flex items-center gap-2 text-xs py-1"><span class="${c}">${icon}</span><span class="text-slate-300 flex-1">${s.name}</span><span class="text-slate-600 mono text-[10px]">${s.detail}</span></div>`;
+        const envBadge = s.source_env ? `<span class="px-1.5 py-0.5 rounded text-[9px] ${(ENV_COLORS[s.source_env]||{}).bg||'bg-slate-800'} ${(ENV_COLORS[s.source_env]||{}).text||'text-slate-400'}">${s.source_env}</span>` : '';
+        return `<div class="flex items-center gap-2 text-xs py-1"><span class="${c}">${icon}</span>${envBadge}<span class="text-slate-300 flex-1">${s.name}</span><span class="text-slate-600 mono text-[10px] shrink-0">${s.detail}</span></div>`;
       }).join('');
-      const pipeline = `<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-orange-400 uppercase tracking-wider mb-2">Live Pipeline (Real Postman API)</div>${stepsHtml}</div>`;
+
+      const envLabel = sourceEnv === 'all' ? 'All Environments' : sourceEnv;
+      const pipeline = `<div class="bg-slate-800/50 rounded-lg p-3 mb-3">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="text-[10px] text-orange-400 uppercase tracking-wider">Live Pipeline</div>
+          <span class="px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 text-[10px] font-medium">Source: ${envLabel}</span>
+        </div>
+        ${stepsHtml}
+      </div>`;
 
       show('result-live-provision', status, data, pipeline);
 
-      // Show copied assets with links
       const linksEl = document.getElementById('live-provision-links');
       const assetsEl = document.getElementById('live-provision-assets');
       const assets = [];
-      for (const c of d.collections_copied || []) {
-        assets.push(`<div class="flex items-center gap-2 text-xs"><span class="text-green-400">&#10003;</span><span class="text-slate-300">Collection: <strong class="text-white">${c.name}</strong></span><span class="text-slate-600 mono text-[10px]">${c.uid}</span></div>`);
+      for (const col of d.collections_copied || []) {
+        const ec = ENV_COLORS[col.source_env] || {};
+        assets.push(`<div class="flex items-center gap-2 text-xs">
+          <span class="text-green-400">&#10003;</span>
+          <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${col.source_env}</span>
+          <span class="text-slate-300">Collection: <strong class="text-white">${col.name}</strong></span>
+        </div>`);
       }
-      for (const e of d.environments_copied || []) {
-        assets.push(`<div class="flex items-center gap-2 text-xs"><span class="text-green-400">&#10003;</span><span class="text-slate-300">Environment: <strong class="text-white">${e.name}</strong></span><span class="text-slate-600 mono text-[10px]">${e.uid}</span></div>`);
+      for (const env of d.environments_copied || []) {
+        const ec = ENV_COLORS[env.source_env] || {};
+        assets.push(`<div class="flex items-center gap-2 text-xs">
+          <span class="text-green-400">&#10003;</span>
+          <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${env.source_env}</span>
+          <span class="text-slate-300">Environment: <strong class="text-white">${env.name}</strong></span>
+        </div>`);
       }
       assetsEl.innerHTML = assets.join('');
       linksEl.classList.remove('hidden');
     } else {
       show('result-live-provision', status, data);
     }
-    badge('live-provision', 'Done');
-    btn.textContent = 'Provision Again';
+    badge('live-provision', sourceEnv === 'all' ? 'All Done' : sourceEnv);
+    btn.textContent = origText;
   } catch(e) {
     show('result-live-provision', 0, { error: e.message });
-    btn.textContent = 'Provision Now';
+    btn.textContent = origText;
   }
   btn.disabled = false;
-  btn.className = btn.className.replace('bg-slate-700', 'bg-orange-500 hover:bg-orange-600');
 }
 
 async function runLiveCleanup() {
@@ -999,7 +1071,9 @@ async function runFullDemo() {
     {name:'Audit Trail: all events',fn:async()=>{goTo('audit');await runAudit('all');}},
     {name:'Audit Trail: provision timeline',fn:async()=>{await runAudit('provision');}},
     {name:'[Live] Clean target workspace',fn:async()=>{goTo('live-provision');await runLiveCleanup();}},
-    {name:'[Live] Provision Deloitte → Deloitte2',fn:async()=>{await runLiveProvision();}},
+    {name:'[Live] Provision AWS → Deloitte2',fn:async()=>{await runLiveProvisionEnv('AWS');}},
+    {name:'[Live] Provision Azure → Deloitte2',fn:async()=>{await runLiveProvisionEnv('Azure');}},
+    {name:'[Live] Provision On-Prem → Deloitte2',fn:async()=>{await runLiveProvisionEnv('On-Prem');}},
     {name:'[Partner] My workspace overview',fn:async()=>{goTo('partner-home');await runPartnerHome('status');}},
     {name:'[Partner] My invite rules',fn:async()=>{await runPartnerHome('policy');}},
     {name:'[Partner] My compliance rules',fn:async()=>{await runPartnerHome('compliance');}},
@@ -1020,6 +1094,7 @@ async function runFullDemo() {
 
 // ── Init ───────────────────────────────────────────────
 goTo('welcome'); checkConn(); setInterval(checkConn, 10000);
+loadSourceEnvironments();
 </script>
 </body>
 </html>

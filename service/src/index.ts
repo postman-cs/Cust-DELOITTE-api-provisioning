@@ -170,6 +170,7 @@ async function main(): Promise<void> {
         "GET    /audit/logs",
         "GET    /audit/logs/:id",
         "GET    /audit/provision/:id",
+        "GET    /provision/live/environments          (list source environments)",
         "POST   /provision/live                    (real Postman API provisioning)",
         "POST   /provision/live/cleanup             (reset target workspace)",
       ],
