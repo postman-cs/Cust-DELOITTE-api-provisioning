@@ -2,6 +2,8 @@
 
 A governance-first platform for provisioning, managing, and securing Postman workspaces at enterprise scale. Built for Deloitte's partner ecosystem, it enforces domain guardrails, compliance rules, collection protection, and full audit trails — while letting downstream partners self-serve within safe boundaries.
 
+> *"Governance should feel like autocomplete, not a speed bump. The developers who comply should barely notice it exists, and the ones who bump into it should immediately understand why and what to do instead."*
+
 ---
 
 ## Demo Talking Points
@@ -89,6 +91,20 @@ Each environment has its own collection (with real request structures, auth head
 - **Step 9 — Invite My Team**: Invite colleagues from coca-cola.com (allowed), Deloitte consultants (allowed), personal gmail (blocked), competitors (blocked)
 - **Step 10 — Fork & PR Workflow**: Submit a PR against a protected collection, check status, list all PRs
 - **Step 11 — Guardrails in Action**: Try to self-review (blocked), merge without approval (blocked), create a public workspace (compliance violation)
+
+### 12. Developer Experience — The Money Shot (Step 12)
+
+> "Governance should feel like autocomplete, not a speed bump. The developers who comply should barely notice it exists, and the ones who bump into it should immediately understand why and what to do instead."
+
+This is the closing argument for Andrew's concern: *"If I impose governance too strictly I'll have a revolt from thousands of developers."*
+
+A simulated developer completes 5 normal tasks — invite a colleague, check compliance, view protection rules, submit a PR, verify workspace compliance. Every task succeeds smoothly with zero friction. Then we hit "Reveal" and show everything governance did behind the scenes:
+
+- **17+ policy checks** fired silently (domain validation, blocked domain check, member cap, protection rules, compliance audit, secret stripping, fork workflow enforcement, self-review prevention...)
+- **5 audit entries** created automatically
+- **0 friction points** — the developer never saw a modal, a denial, or an approval queue
+
+The visual punchline: a counter animating through every invisible policy check, followed by the one-liner.
 
 ---
 
