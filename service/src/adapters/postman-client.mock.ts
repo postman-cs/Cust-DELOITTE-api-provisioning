@@ -40,15 +40,16 @@ export class MockPostmanClient implements IPostmanClient {
   private workspaceEnvironments: Map<string, string[]> = new Map();
   private permissions: Map<string, Array<{ email: string; role: string }>> = new Map();
 
-  constructor() {
-    this.seedGoldenWorkspace();
+  constructor(goldenWorkspaceId?: string) {
+    this.seedGoldenWorkspace(goldenWorkspaceId || "golden-workspace-001");
   }
 
   /**
    * Seed the mock with a "Golden" workspace containing sample assets.
+   * Accepts a configurable workspace ID so the mock matches whatever
+   * POSTMAN_GOLDEN_WORKSPACE_ID the user has in their .env.
    */
-  private seedGoldenWorkspace(): void {
-    const goldenWsId = "golden-workspace-001";
+  private seedGoldenWorkspace(goldenWsId: string): void {
 
     this.workspaces.set(goldenWsId, {
       id: goldenWsId,

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deloitte API Provisioning Platform — Demo</title>
+  <title>API Provisioning Platform — Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -51,8 +51,8 @@
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         </div>
         <div>
-          <div class="text-sm font-bold text-white">Deloitte</div>
-          <div class="text-[10px] text-slate-500 uppercase tracking-wider">API Provisioning Platform</div>
+          <div class="text-sm font-bold text-white" data-cfg="admin-org">API Platform</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-wider">Provisioning Platform</div>
         </div>
       </div>
     </div>
@@ -133,7 +133,7 @@
         <span id="badge-partner-limits" class="ml-auto hidden text-[10px] px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium"></span>
       </button>
 
-      <div class="px-2 pt-4 pb-1.5 text-[10px] font-semibold text-fuchsia-400 uppercase tracking-wider">The Money Shot</div>
+      <div class="px-2 pt-4 pb-1.5 text-[10px] font-semibold text-fuchsia-400 uppercase tracking-wider">The Proof Point</div>
 
       <button onclick="goTo('dx')" data-nav="dx" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 border-l-2 border-transparent transition-all">
         <span class="w-6 h-6 rounded-full bg-fuchsia-900/50 flex items-center justify-center text-xs mono text-fuchsia-400 shrink-0">12</span>
@@ -156,7 +156,7 @@
       <section id="page-welcome" class="page fade-in">
         <div class="mb-8">
           <h1 class="text-3xl font-bold text-white mb-2">API Provisioning Platform</h1>
-          <p class="text-slate-400 text-lg">Interactive demo of the full Deloitte Postman governance system</p>
+          <p class="text-slate-400 text-lg">Interactive demo of the full <span data-cfg="admin-org">Org</span> Postman governance system</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -165,7 +165,7 @@
               <div class="w-3 h-3 rounded-full bg-deloitte-500"></div>
               <div class="text-sm font-semibold text-white">Admin Workflow (Steps 1-6)</div>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-3">Deloitte provisioners set up partner workspaces, define domain guardrails, compliance rules, collection protection, and audit everything.</p>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3"><span data-cfg="admin-org">Admin</span> provisioners set up partner workspaces, define domain guardrails, compliance rules, collection protection, and audit everything.</p>
             <div class="flex flex-wrap gap-1.5">
               <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Provision</span>
               <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">Guardrails</span>
@@ -195,7 +195,7 @@
               <div class="w-3 h-3 rounded-full bg-sky-500"></div>
               <div class="text-sm font-semibold text-white">Partner / Sub-Org Experience (Steps 8-11)</div>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed mb-3">Downstream partners (e.g. Coca-Cola UK) work <em>within</em> their provisioned environment: view their workspace, invite teammates, propose changes via PR, and see guardrails in action.</p>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3">Downstream partners (e.g. <span data-cfg="partner-name">Partner</span>) work <em>within</em> their provisioned environment: view their workspace, invite teammates, propose changes via PR, and see guardrails in action.</p>
             <div class="flex flex-wrap gap-1.5">
               <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900/50 text-sky-400">My Workspace</span>
               <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-900/50 text-sky-400">Invite My Team</span>
@@ -210,7 +210,7 @@
           <div class="text-xs text-slate-400 leading-relaxed space-y-1">
             <p>1. Make sure the service is running: <code class="mono bg-slate-800 px-1.5 py-0.5 rounded text-deloitte-400">make dev</code></p>
             <p>2. Click through each step in the sidebar, or use the button below for a full walkthrough</p>
-            <p>3. Steps 1-6: <strong class="text-deloitte-400">admin</strong> &mdash; Step 7: <strong class="text-orange-400">live cross-workspace</strong> &mdash; Steps 8-11: <strong class="text-sky-400">partner</strong> &mdash; Step 12: <strong class="text-fuchsia-400">the money shot</strong></p>
+            <p>3. Steps 1-6: <strong class="text-deloitte-400">admin</strong> &mdash; Step 7: <strong class="text-orange-400">live cross-workspace</strong> &mdash; Steps 8-11: <strong class="text-sky-400">partner</strong> &mdash; Step 12: <strong class="text-fuchsia-400">the proof point</strong></p>
           </div>
         </div>
 
@@ -234,20 +234,12 @@
           <div class="flex items-center justify-between mb-4">
             <div>
               <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/workspace</div>
-              <div class="text-sm text-slate-300">Provision Coca-Cola UK workspace via team-cpg</div>
+              <div class="text-sm text-slate-300">Provision <span data-cfg="partner-name">Partner</span> workspace via team-cpg</div>
             </div>
             <button onclick="runProvision()" id="btn-provision" class="px-4 py-2 bg-deloitte-500 hover:bg-deloitte-600 text-white text-sm font-medium rounded-lg transition-colors">Run Provision</button>
           </div>
-          <pre class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800"><code>{
-  "partner_name": "Coca-Cola UK",
-  "partner_domains": ["coca-cola.com"],
-  "api_package_ids": ["col-cloud-v3-uid"],
-  "update_mode": "manual",
-  "workspace_policy": "standard",
-  "requested_by": "developer@deloitte.com",
-  "team_id": "team-cpg"
-}</code></pre>
-          <div class="text-[10px] text-slate-600 mt-2">Dev mode user: developer@deloitte.com (admin + provisioner roles)</div>
+          <pre id="provision-example-code" class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800"><code></code></pre>
+          <div class="text-[10px] text-slate-600 mt-2">Dev mode user: developer@<span data-cfg="admin-domain">org.com</span> (admin + provisioner roles)</div>
         </div>
         <div id="result-provision" class="hidden"></div>
         <div class="flex justify-end mt-6"><button onclick="goTo('guardrails')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg transition-colors">Next: Domain Guardrails &rarr;</button></div>
@@ -269,11 +261,11 @@
           <div id="result-unknown" class="hidden"></div>
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
-          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300">coca-cola.com via team-automotive (wrong team)</span></div></div><button onclick="runGuardrail('wrongteam')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
+          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300"><span data-cfg="partner-domain">partner.com</span> via team-automotive (wrong team)</span></div></div><button onclick="runGuardrail('wrongteam')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
           <div id="result-wrongteam" class="hidden"></div>
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
-          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300">coca-cola.com + pepsi.com (single-partner rule)</span></div></div><button onclick="runGuardrail('multi')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
+          <div class="flex items-center justify-between mb-3"><div><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">DENIED</span><span class="text-sm text-slate-300"><span data-cfg="partner-domain">partner.com</span> + <span data-cfg="competitor-domain">competitor.com</span> (single-partner rule)</span></div></div><button onclick="runGuardrail('multi')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Test</button></div>
           <div id="result-multi" class="hidden"></div>
         </div>
         <button onclick="runAllGuardrails()" class="w-full px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700 mb-4">Run All Guardrail Tests</button>
@@ -296,7 +288,7 @@
           <div id="result-invite-policy" class="hidden"></div>
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
-          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">ALLOWED</span><span class="text-sm text-slate-300">Invite bob@coca-cola.com (partner domain)</span></div><button onclick="runInvite('allowed')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Send Invite</button></div>
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">ALLOWED</span><span class="text-sm text-slate-300">Invite bob@<span data-cfg="partner-domain">partner.com</span> (partner domain)</span></div><button onclick="runInvite('allowed')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Send Invite</button></div>
           <div id="result-invite-allowed" class="hidden"></div>
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
@@ -304,7 +296,7 @@
           <div id="result-invite-blocked" class="hidden"></div>
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
-          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">PARTIAL</span><span class="text-sm text-slate-300">Mixed: legit@coca-cola.com + bad@yahoo.com</span></div><button onclick="runInvite('mixed')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Send Mixed</button></div>
+          <div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">PARTIAL</span><span class="text-sm text-slate-300">Mixed: legit@<span data-cfg="partner-domain">partner.com</span> + bad@yahoo.com</span></div><button onclick="runInvite('mixed')" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-medium rounded-lg transition-colors border border-amber-500/20">Send Mixed</button></div>
           <div id="result-invite-mixed" class="hidden"></div>
         </div>
         <div class="flex justify-between mt-6"><button onclick="goTo('guardrails')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Guardrails</button><button onclick="goTo('compliance')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">Next: Compliance &rarr;</button></div>
@@ -381,7 +373,7 @@
         <div class="mb-6">
           <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400">Live</span><span class="mono">Step 7 of 12</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Live Cross-Workspace Provisioning</h2>
-          <p class="text-slate-400">Tech-agnostic provisioning: pull collections and environments from <strong class="text-orange-300">completely different source environments</strong> (AWS, Azure, On-Prem) into a target workspace using the real Postman API.</p>
+          <p class="text-slate-400">Tech-agnostic provisioning: pull collections, environments, and <strong class="text-fuchsia-300">API specs (Spec Hub)</strong> from <strong class="text-orange-300">completely different source environments</strong> (AWS, Azure, On-Prem) into a target workspace using the real Postman API.</p>
         </div>
 
         <!-- Key insight callout -->
@@ -390,22 +382,52 @@
             <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             <span class="text-sm font-semibold text-white">Why this matters</span>
           </div>
-          <p class="text-xs text-slate-400 leading-relaxed">The platform doesn't care where your APIs live. AWS Lambda, Azure APIM, on-prem data centers &mdash; it provisions and governs them all the same way. Each environment below represents a completely different technology stack with its own auth, endpoints, and infrastructure.</p>
+          <p class="text-xs text-slate-400 leading-relaxed">The platform doesn't care where your APIs live. AWS Lambda, Azure APIM, on-prem data centers &mdash; it provisions and governs them all the same way. Collections, environments, <strong class="text-fuchsia-300">and API specs are published to Spec Hub</strong> in each target workspace. Each environment below represents a completely different technology stack with its own auth, endpoints, and infrastructure.</p>
         </div>
 
-        <!-- Workspace info bar -->
-        <div class="grid grid-cols-2 gap-4 mb-6">
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <!-- Workspace routing diagram -->
+        <div class="mb-6">
+          <!-- Source -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-3">
             <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">Source (Golden Workspace)</div>
-            <div class="text-sm font-medium text-white">Deloitte</div>
-            <div class="text-slate-500 mono text-[10px] mt-0.5">049c773e-...51807af1790</div>
-            <a href="https://go.postman.co/workspace/049c773e-979a-4459-bf56-051807af1790" target="_blank" class="inline-flex items-center gap-1 mt-2 text-[10px] text-deloitte-400 hover:text-deloitte-300">Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-medium text-white" data-cfg="golden-name">Golden Workspace</div>
+                <div class="text-slate-500 mono text-[10px] mt-0.5" data-cfg="golden-id-short"></div>
+              </div>
+              <a data-cfg-href="golden-url" href="#" target="_blank" class="inline-flex items-center gap-1 text-[10px] text-deloitte-400 hover:text-deloitte-300">Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+            </div>
           </div>
-          <div class="bg-slate-900 border border-orange-500/20 rounded-xl p-4">
-            <div class="text-[10px] text-orange-400 uppercase tracking-wider mb-1.5">Target (Partner Workspace)</div>
-            <div class="text-sm font-medium text-white">Deloitte2</div>
-            <div class="text-slate-500 mono text-[10px] mt-0.5">897c9214-...96e6196d44d1</div>
-            <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-1 mt-2 text-[10px] text-orange-400 hover:text-orange-300">Open in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+
+          <!-- Routing arrows -->
+          <div class="flex items-center justify-center gap-6 my-2 text-[10px] text-slate-600">
+            <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span>AWS</div>
+            <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-400"></span>Azure</div>
+            <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>On-Prem</div>
+          </div>
+
+          <!-- Three separate target workspaces -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-slate-900 border border-amber-500/20 rounded-xl p-3">
+              <div class="text-[10px] text-amber-400 uppercase tracking-wider mb-1">Target: AWS</div>
+              <div class="text-sm font-medium text-white" data-cfg="target-aws-name">Target-AWS</div>
+              <div class="text-slate-500 mono text-[10px] mt-0.5" data-cfg="target-aws-id-short"></div>
+              <a data-cfg-href="target-aws-url" href="#" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-[10px] text-amber-400 hover:text-amber-300">Open <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+            </div>
+            <div class="bg-slate-900 border border-blue-500/20 rounded-xl p-3">
+              <div class="text-[10px] text-blue-400 uppercase tracking-wider mb-1">Target: Azure</div>
+              <div class="text-sm font-medium text-white" data-cfg="target-azure-name">Target-Azure</div>
+              <div class="text-slate-500 mono text-[10px] mt-0.5" data-cfg="target-azure-id-short"></div>
+              <a data-cfg-href="target-azure-url" href="#" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-[10px] text-blue-400 hover:text-blue-300">Open <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+            </div>
+            <div class="bg-slate-900 border border-emerald-500/20 rounded-xl p-3">
+              <div class="text-[10px] text-emerald-400 uppercase tracking-wider mb-1">Target: On-Prem</div>
+              <div class="text-sm font-medium text-white" data-cfg="target-onprem-name">Target-OnPrem</div>
+              <div class="text-slate-500 mono text-[10px] mt-0.5" data-cfg="target-onprem-id-short"></div>
+              <a data-cfg-href="target-onprem-url" href="#" target="_blank" class="inline-flex items-center gap-1 mt-1.5 text-[10px] text-emerald-400 hover:text-emerald-300">Open <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+            </div>
           </div>
         </div>
 
@@ -436,7 +458,7 @@
               <span class="w-2 h-2 rounded-full bg-orange-300"></span> Provision All Environments
             </button>
           </div>
-          <div class="text-[10px] text-slate-600">Each button provisions from a different source environment into the target workspace using the real Postman API. Assets appear in Postman immediately.</div>
+          <div class="text-[10px] text-slate-600">Each button provisions collections, environments, and <strong class="text-fuchsia-400">API specs to Spec Hub</strong> from a different source environment into <strong class="text-slate-500">its own dedicated target workspace</strong> using the real Postman API.</div>
         </div>
 
         <!-- Provision results -->
@@ -445,9 +467,11 @@
         <div id="live-provision-links" class="hidden bg-orange-500/5 border border-orange-500/20 rounded-xl p-5 mb-4">
           <div class="flex items-center justify-between mb-3">
             <div class="text-sm font-medium text-white">Assets Provisioned</div>
-            <a href="https://go.postman.co/workspace/897c9214-fccb-4bce-9008-96e6196d44d1" target="_blank" class="inline-flex items-center gap-1 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-medium rounded-lg transition-colors">
-              Open Target in Postman <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            </a>
+            <div class="flex items-center gap-2">
+              <a data-cfg-href="target-aws-url" href="#" target="_blank" class="inline-flex items-center gap-1 px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white text-[10px] font-medium rounded-lg transition-colors"><span data-cfg="target-aws-name">AWS</span> <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+              <a data-cfg-href="target-azure-url" href="#" target="_blank" class="inline-flex items-center gap-1 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-medium rounded-lg transition-colors"><span data-cfg="target-azure-name">Azure</span> <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+              <a data-cfg-href="target-onprem-url" href="#" target="_blank" class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-medium rounded-lg transition-colors"><span data-cfg="target-onprem-name">On-Prem</span> <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>
+            </div>
           </div>
           <div id="live-provision-assets" class="space-y-2"></div>
         </div>
@@ -456,10 +480,10 @@
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
           <div class="flex items-center justify-between">
             <div>
-              <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/live/cleanup</div>
-              <div class="text-sm text-slate-300">Reset: remove all provisioned assets from Deloitte2</div>
+              <div class="text-xs font-medium text-slate-500 mb-1">POST /provision/live/cleanup &times; 3</div>
+              <div class="text-sm text-slate-300">Reset: remove all provisioned assets (collections, environments, &amp; Spec Hub APIs) from <strong class="text-amber-400" data-cfg="target-aws-name">Target-AWS</strong>, <strong class="text-blue-400" data-cfg="target-azure-name">Target-Azure</strong>, &amp; <strong class="text-emerald-400" data-cfg="target-onprem-name">Target-OnPrem</strong></div>
             </div>
-            <button onclick="runLiveCleanup()" id="btn-live-cleanup" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Reset Target Workspace</button>
+            <button onclick="runLiveCleanupAll()" id="btn-live-cleanup" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Reset All Target Workspaces</button>
           </div>
           <div id="result-live-cleanup" class="hidden mt-3"></div>
         </div>
@@ -474,17 +498,17 @@
       <!-- ═══ PARTNER / SUB-ORG EXPERIENCE ═══════════════════ -->
       <!-- ═══════════════════════════════════════════════════════ -->
 
-      <!-- ═══ STEP 7: PARTNER HOME ═══ -->
+      <!-- ═══ STEP 8: PARTNER HOME ═══ -->
       <section id="page-partner-home" class="page hidden">
         <div class="mb-6">
           <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 8 of 12</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">My Workspace</h2>
-          <p class="text-slate-400">You are now <strong class="text-sky-400">Coca-Cola UK</strong>. This is what your team sees when they open their provisioned Postman workspace.</p>
+          <p class="text-slate-400">You are now <strong class="text-sky-400" data-cfg="partner-name">Partner</strong>. This is what your team sees when they open their provisioned Postman workspace.</p>
         </div>
 
         <div class="bg-sky-500/5 border border-sky-500/20 rounded-xl p-4 mb-6 text-sm text-sky-300">
           <div class="flex items-center gap-2 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><strong>Persona switch:</strong></div>
-          You're no longer the Deloitte admin. You're a partner team member who just received access to a provisioned workspace. Everything below shows what you can do &mdash; and what you can't.
+          You're no longer the <span data-cfg="admin-org">Admin</span> admin. You're a partner team member who just received access to a provisioned workspace. Everything below shows what you can do &mdash; and what you can't.
         </div>
 
         <!-- Workspace overview -->
@@ -526,17 +550,17 @@
         <div class="flex justify-between mt-6"><button onclick="goTo('live-provision')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Live Provisioning</button><button onclick="goTo('partner-invite')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Invite My Team &rarr;</button></div>
       </section>
 
-      <!-- ═══ STEP 8: PARTNER INVITE ═══ -->
+      <!-- ═══ STEP 9: PARTNER INVITE ═══ -->
       <section id="page-partner-invite" class="page hidden">
         <div class="mb-6">
           <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 9 of 12</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Invite My Team</h2>
-          <p class="text-slate-400">As a Coca-Cola partner, I can invite my colleagues &mdash; but only from approved domains. The guardrails protect me from mistakes.</p>
+          <p class="text-slate-400">As a <span data-cfg="partner-name">Partner</span> team member, I can invite my colleagues &mdash; but only from approved domains. The guardrails protect me from mistakes.</p>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
           <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">I CAN</span><span class="text-sm text-slate-300">Invite sarah@coca-cola.com to collaborate</span></div>
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">I CAN</span><span class="text-sm text-slate-300">Invite sarah@<span data-cfg="partner-domain">partner.com</span> to collaborate</span></div>
             <button onclick="runPartnerInvite('good')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Invite Colleague</button>
           </div>
           <div id="result-pi-good" class="hidden"></div>
@@ -544,7 +568,7 @@
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
           <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">I CAN</span><span class="text-sm text-slate-300">Invite a Deloitte consultant (deloitte.com)</span></div>
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-medium rounded-full">I CAN</span><span class="text-sm text-slate-300">Invite a <span data-cfg="admin-org">Admin</span> consultant (<span data-cfg="admin-domain">org.com</span>)</span></div>
             <button onclick="runPartnerInvite('deloitte')" class="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium rounded-lg transition-colors border border-green-500/20">Invite Consultant</button>
           </div>
           <div id="result-pi-deloitte" class="hidden"></div>
@@ -560,7 +584,7 @@
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
           <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">I CAN'T</span><span class="text-sm text-slate-300">Invite someone from a competitor (pepsi.com)</span></div>
+            <div class="flex items-center gap-2"><span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] font-medium rounded-full">I CAN'T</span><span class="text-sm text-slate-300">Invite someone from a competitor (<span data-cfg="competitor-domain">competitor.com</span>)</span></div>
             <button onclick="runPartnerInvite('competitor')" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium rounded-lg transition-colors border border-red-500/20">Try It</button>
           </div>
           <div id="result-pi-competitor" class="hidden"></div>
@@ -577,7 +601,7 @@
         <div class="flex justify-between mt-6"><button onclick="goTo('partner-home')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; My Workspace</button><button onclick="goTo('partner-pr')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Fork &amp; PR &rarr;</button></div>
       </section>
 
-      <!-- ═══ STEP 9: PARTNER PR WORKFLOW ═══ -->
+      <!-- ═══ STEP 10: PARTNER PR WORKFLOW ═══ -->
       <section id="page-partner-pr" class="page hidden">
         <div class="mb-6">
           <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 10 of 12</span></div>
@@ -626,12 +650,12 @@
         <div class="flex justify-between mt-6"><button onclick="goTo('partner-invite')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg">&larr; Invite My Team</button><button onclick="goTo('partner-limits')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm rounded-lg">Next: Guardrails in Action &rarr;</button></div>
       </section>
 
-      <!-- ═══ STEP 10: PARTNER LIMITS ═══ -->
+      <!-- ═══ STEP 11: PARTNER LIMITS ═══ -->
       <section id="page-partner-limits" class="page hidden">
         <div class="mb-6">
           <div class="flex items-center gap-2 text-xs mb-2"><span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Partner</span><span class="text-slate-500 mono">Step 11 of 12</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Guardrails in Action</h2>
-          <p class="text-slate-400">As a partner, these are the things the platform prevents me from doing &mdash; protecting Deloitte's IP and compliance posture.</p>
+          <p class="text-slate-400">As a partner, these are the things the platform prevents me from doing &mdash; protecting <span data-cfg="admin-org">the org</span>'s IP and compliance posture.</p>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-4">
@@ -672,10 +696,10 @@
         </div>
       </section>
 
-      <!-- ═══ STEP 12: DEVELOPER EXPERIENCE — THE MONEY SHOT ═══ -->
+      <!-- ═══ STEP 12: DEVELOPER EXPERIENCE — THE PROOF POINT ═══ -->
       <section id="page-dx" class="page hidden">
         <div class="mb-6">
-          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-fuchsia-500/10 text-fuchsia-400">The Money Shot</span><span class="mono">Step 12 of 12</span></div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-2"><span class="px-2 py-0.5 rounded bg-fuchsia-500/10 text-fuchsia-400">The Proof Point</span><span class="mono">Step 12 of 12</span></div>
           <h2 class="text-2xl font-bold text-white mb-1">Developer Experience</h2>
           <p class="text-slate-400 text-lg italic">"Governance should feel like autocomplete, not a speed bump."</p>
         </div>
@@ -683,7 +707,7 @@
         <div class="bg-fuchsia-500/5 border border-fuchsia-500/20 rounded-xl p-5 mb-6">
           <div class="flex items-center gap-2 mb-2">
             <svg class="w-5 h-5 text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <div class="text-sm font-semibold text-white">Andrew's concern:</div>
+            <div class="text-sm font-semibold text-white">The concern:</div>
           </div>
           <p class="text-sm text-slate-300 italic">"If I impose governance too strictly I'll have a revolt from thousands of developers saying how dare you tell me how to do things!"</p>
           <p class="text-xs text-slate-500 mt-2">Let's show how we address that. Below, a developer does 5 normal tasks. Watch how smooth it feels. Then we reveal everything governance did behind the scenes.</p>
@@ -694,7 +718,7 @@
           <div class="flex items-center justify-between mb-4">
             <div>
               <div class="text-sm font-semibold text-white">A Day in the Life of a Partner Developer</div>
-              <div class="text-xs text-slate-500">Watch a Coca-Cola UK developer do 5 tasks. Zero friction.</div>
+              <div class="text-xs text-slate-500">Watch a <span data-cfg="partner-name">Partner</span> developer do 5 tasks. Zero friction.</div>
             </div>
             <button onclick="runDxSimulation()" id="btn-dx-sim" class="px-4 py-2.5 bg-fuchsia-500 hover:bg-fuchsia-600 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-fuchsia-500/20">Run Developer Workflow</button>
           </div>
@@ -704,7 +728,7 @@
               <span class="dx-icon w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-slate-600 text-xs shrink-0 mt-0.5">1</span>
               <div class="flex-1">
                 <div class="text-sm text-slate-400">Invite a colleague to my workspace</div>
-                <div class="text-[10px] text-slate-600 mono">POST /invite/workspace/:id — sarah@coca-cola.com</div>
+                <div class="text-[10px] text-slate-600 mono">POST /invite/workspace/:id — sarah@<span data-cfg="partner-domain">partner.com</span></div>
               </div>
               <div class="dx-result text-xs shrink-0"></div>
             </div>
@@ -851,6 +875,90 @@
 const API = 'http://localhost:3000';
 let state = { wsId: null, provId: null, prId: null, partnerPrId: null };
 
+// ── Dynamic Config (loaded from backend /config) ────────
+// All branding, workspace IDs, and partner names come from
+// service/.env via the backend.  Nothing is hardcoded here.
+let CFG = {
+  golden: { id: '', name: '', url: '' },
+  targets: {},
+  brand: { adminOrgName: '', adminOrgDomain: '', partnerName: '', partnerDomain: '', competitorDomain: '' },
+};
+
+async function loadAppConfig() {
+  try {
+    const res = await fetch(API + '/config');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const cfg = await res.json();
+    CFG.golden = cfg.goldenWorkspace || CFG.golden;
+    CFG.targets = cfg.targetWorkspaces || {};
+    CFG.brand = cfg.branding || CFG.brand;
+    populateDOM();
+  } catch(e) {
+    console.warn('Could not load /config — using defaults. Start the backend with: make dev', e.message || e);
+    // Show a subtle warning banner if config failed
+    const banner = document.createElement('div');
+    banner.className = 'fixed top-0 left-0 right-0 bg-amber-500/10 border-b border-amber-500/20 text-amber-400 text-xs text-center py-1.5 z-50';
+    banner.textContent = 'Backend not connected — config using defaults. Run: make dev';
+    document.body.prepend(banner);
+  }
+}
+
+function populateDOM() {
+  const b = CFG.brand;
+  const g = CFG.golden;
+  const t = CFG.targets;
+
+  // Replace all data-cfg-* placeholders in the DOM
+  document.querySelectorAll('[data-cfg]').forEach(el => {
+    const key = el.getAttribute('data-cfg');
+    const map = {
+      'partner-name': b.partnerName,
+      'partner-domain': b.partnerDomain,
+      'competitor-domain': b.competitorDomain,
+      'admin-org': b.adminOrgName,
+      'admin-domain': b.adminOrgDomain,
+      'golden-name': g.name,
+      'golden-id-short': g.id ? g.id.slice(0,8) + '...' : '',
+      'target-aws-name': t.AWS?.name || '',
+      'target-azure-name': t.Azure?.name || '',
+      'target-onprem-name': t['On-Prem']?.name || '',
+      'target-aws-id-short': t.AWS?.id ? t.AWS.id.slice(0,8) + '...' : '',
+      'target-azure-id-short': t.Azure?.id ? t.Azure.id.slice(0,8) + '...' : '',
+      'target-onprem-id-short': t['On-Prem']?.id ? t['On-Prem'].id.slice(0,8) + '...' : '',
+    };
+    if (map[key] !== undefined) el.textContent = map[key];
+  });
+
+  // Update page title
+  document.title = `${b.adminOrgName} API Provisioning Platform — Demo`;
+
+  // Fill in the provision example code block
+  const exCode = document.querySelector('#provision-example-code code');
+  if (exCode) {
+    exCode.textContent = JSON.stringify({
+      partner_name: b.partnerName,
+      partner_domains: [b.partnerDomain],
+      api_package_ids: ['col-cloud-v3-uid'],
+      update_mode: 'manual',
+      workspace_policy: 'standard',
+      requested_by: `developer@${b.adminOrgDomain}`,
+      team_id: 'team-cpg',
+    }, null, 2);
+  }
+
+  // Replace all data-cfg-href links
+  document.querySelectorAll('[data-cfg-href]').forEach(el => {
+    const key = el.getAttribute('data-cfg-href');
+    const map = {
+      'golden-url': g.url,
+      'target-aws-url': t.AWS?.url || '',
+      'target-azure-url': t.Azure?.url || '',
+      'target-onprem-url': t['On-Prem']?.url || '',
+    };
+    if (map[key]) el.href = map[key];
+  });
+}
+
 // ── Navigation ─────────────────────────────────────────
 function goTo(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -869,9 +977,20 @@ function goTo(page) {
 async function api(method, path, body) {
   const opts = { method, headers: { 'Content-Type': 'application/json' } };
   if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(API + path, opts);
-  const data = await res.json();
-  return { status: res.status, data };
+  try {
+    const res = await fetch(API + path, opts);
+    let data;
+    try { data = await res.json(); } catch { data = { error: 'Non-JSON response' }; }
+    return { status: res.status, data };
+  } catch (err) {
+    return { status: 0, data: { error: `Network error: ${err.message || 'Could not reach backend'}. Is the service running? (make dev)` } };
+  }
+}
+
+// ── Security: HTML escaping ─────────────────────────────
+function esc(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ── JSON Highlighting ──────────────────────────────────
@@ -887,6 +1006,7 @@ function hl(json) {
 
 function show(id, status, data, extra = '') {
   const c = document.getElementById(id);
+  if (!c) { console.warn('show(): element not found:', id); return; }
   const ok = status < 400;
   const sc = status < 300 ? 'text-green-400 bg-green-500/10' : status < 400 ? 'text-amber-400 bg-amber-500/10' : 'text-red-400 bg-red-500/10';
   c.innerHTML = `<div class="fade-in">${extra}<div class="flex items-center gap-2 mb-2"><span class="px-2 py-0.5 rounded text-[10px] font-medium mono ${sc}">HTTP ${status}</span><span class="text-[10px] ${ok?'text-green-400':'text-red-400'}">${ok?'Success':'Blocked / Denied'}</span></div><pre class="bg-slate-950 rounded-lg p-4 text-xs mono overflow-x-auto border border-slate-800 max-h-80 overflow-y-auto"><code>${hl(data)}</code></pre></div>`;
@@ -908,11 +1028,11 @@ async function checkConn() {
 
 // ── Step 1: Provision ──────────────────────────────────
 async function runProvision() {
-  const btn = document.getElementById('btn-provision'); btn.textContent = 'Provisioning...'; btn.disabled = true;
+  const btn = document.getElementById('btn-provision'); if (!btn) return; btn.textContent = 'Provisioning...'; btn.disabled = true;
   try {
-    const { status, data } = await api('POST', '/provision/workspace', { partner_name:'Coca-Cola UK', partner_domains:['coca-cola.com'], api_package_ids:['col-cloud-v3-uid'], update_mode:'manual', workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' });
+    const { status, data } = await api('POST', '/provision/workspace', { partner_name:CFG.brand.partnerName, partner_domains:[CFG.brand.partnerDomain], api_package_ids:['col-cloud-v3-uid'], update_mode:'manual', workspace_policy:'standard', requested_by:`developer@${CFG.brand.adminOrgDomain}`, team_id:'team-cpg' });
     state.wsId = data?.data?.workspace_id; state.provId = data?.data?.id;
-    const steps = (data?.data?.steps_completed||[]).map(s => `<div class="flex items-center gap-2 text-xs"><span class="${s.status==='completed'?'text-green-400':'text-red-400'}">${s.status==='completed'?'&#10003;':'&#10007;'}</span><span class="text-slate-300">${s.name}</span></div>`).join('');
+    const steps = (data?.data?.steps_completed||[]).map(s => `<div class="flex items-center gap-2 text-xs"><span class="${s.status==='completed'?'text-green-400':'text-red-400'}">${s.status==='completed'?'&#10003;':'&#10007;'}</span><span class="text-slate-300">${esc(s.name)}</span></div>`).join('');
     show('result-provision', status, data, `<div class="bg-slate-800/50 rounded-lg p-3 mb-3 space-y-1.5"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Pipeline Steps</div>${steps}</div>`);
     badge('provision', 'Done'); btn.textContent = 'Re-run';
   } catch(e) { show('result-provision', 0, {error:e.message}); btn.textContent = 'Run Provision'; }
@@ -920,22 +1040,25 @@ async function runProvision() {
 }
 
 // ── Step 2: Guardrails ─────────────────────────────────
-const gPayloads = {
-  gmail: { partner_name:'Evil Corp', partner_domains:['gmail.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' },
-  unknown: { partner_name:'Random Corp', partner_domains:['randomcorp.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' },
-  wrongteam: { partner_name:'Wrong Team', partner_domains:['coca-cola.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-automotive' },
-  multi: { partner_name:'Multi Domain', partner_domains:['coca-cola.com','pepsi.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:'developer@deloitte.com', team_id:'team-cpg' },
-};
-async function runGuardrail(t) { const {status,data}=await api('POST','/provision/workspace',gPayloads[t]); const e=data?.data?.error||data?.error?.message||''; show('result-'+t,status,data,e?`<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">${e}</div>`:''); }
+function getGuardrailPayloads() {
+  const dev = `developer@${CFG.brand.adminOrgDomain}`;
+  return {
+    gmail: { partner_name:'Evil Corp', partner_domains:['gmail.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:dev, team_id:'team-cpg' },
+    unknown: { partner_name:'Random Corp', partner_domains:['randomcorp.com'], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:dev, team_id:'team-cpg' },
+    wrongteam: { partner_name:'Wrong Team', partner_domains:[CFG.brand.partnerDomain], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:dev, team_id:'team-automotive' },
+    multi: { partner_name:'Multi Domain', partner_domains:[CFG.brand.partnerDomain, CFG.brand.competitorDomain], api_package_ids:['col-cloud-v3-uid'], workspace_policy:'standard', requested_by:dev, team_id:'team-cpg' },
+  };
+}
+async function runGuardrail(t) { const {status,data}=await api('POST','/provision/workspace',getGuardrailPayloads()[t]); const e=data?.data?.error||data?.error?.message||''; show('result-'+t,status,data,e?`<div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3 mb-3 text-xs text-red-300">${e}</div>`:''); }
 async function runAllGuardrails() { for (const t of ['gmail','unknown','wrongteam','multi']) await runGuardrail(t); badge('guardrails','4 tested'); }
 
 // ── Step 3: Invite Guard ───────────────────────────────
 async function runInvite(t) {
   if(!state.wsId&&t!=='policy'){document.getElementById('invite-prereq').classList.remove('hidden');return;} const ws=state.wsId||'ws-unknown'; let r;
   if(t==='policy') r=await api('GET',`/invite/workspace/${ws}/policy`);
-  else if(t==='allowed') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:'bob@coca-cola.com',role:'viewer'}]});
+  else if(t==='allowed') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:`bob@${CFG.brand.partnerDomain}`,role:'viewer'}]});
   else if(t==='blocked') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:'hacker@gmail.com',role:'viewer'}]});
-  else if(t==='mixed') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:'legit@coca-cola.com',role:'editor'},{email:'bad@yahoo.com',role:'viewer'}]});
+  else if(t==='mixed') r=await api('POST',`/invite/workspace/${ws}`,{invitees:[{email:`legit@${CFG.brand.partnerDomain}`,role:'editor'},{email:'bad@yahoo.com',role:'viewer'}]});
   show('result-invite-'+t,r.status,r.data); badge('invite','Tested');
 }
 
@@ -944,16 +1067,16 @@ async function runCompliance(t) {
   let r;
   if(t==='global'){r=await api('GET','/compliance/rules'); const rules=r.data?.data?.rules||[]; const h=rules.map(r=>{const s=r.severity==='critical'?'bg-red-500/10 text-red-400':r.severity==='high'?'bg-amber-500/10 text-amber-400':'bg-blue-500/10 text-blue-400'; return`<div class="flex items-center justify-between text-xs py-1.5 border-b border-slate-800/50 last:border-0"><span class="text-slate-300">${r.description}</span><span class="px-2 py-0.5 rounded-full ${s} text-[10px] font-medium">${r.severity}</span></div>`;}).join(''); show('result-compliance-global',r.status,r.data,`<div class="bg-slate-800/50 rounded-lg p-3 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">${rules.length} Rules</div>${h}</div>`);}
   else if(t==='team'){r=await api('GET','/compliance/rules/team-hosting'); show('result-compliance-team',r.status,r.data);}
-  else if(t==='violation'){r=await api('POST','/compliance/check/workspace',{workspace_id:'ws-bad',workspace_type:'partner',has_public_collections:true,has_public_mock_servers:true,has_unstripped_secrets:true,member_count:150,has_fork_workflow:false,has_direct_collection_creation:true,has_valid_spec:false,has_security_schemes:false,has_sso_enabled:false}); const v=r.data?.data?.violations||[]; const h=v.map(v=>{const s=v.severity==='critical'?'border-red-500/30 bg-red-500/5':v.severity==='high'?'border-amber-500/30 bg-amber-500/5':'border-blue-500/30 bg-blue-500/5'; return`<div class="border ${s} rounded-lg p-2.5 text-xs"><div class="font-medium text-white mb-0.5">${v.rule}</div><div class="text-slate-400">${v.message}</div><div class="text-slate-500 mt-1 italic">${v.remediation||''}</div></div>`;}).join(''); show('result-compliance-violation',r.status,r.data,v.length?`<div class="space-y-2 mb-3"><div class="text-[10px] text-red-400 uppercase tracking-wider">${v.length} Violations</div>${h}</div>`:'');}
+  else if(t==='violation'){r=await api('POST','/compliance/check/workspace',{workspace_id:'ws-bad',workspace_type:'partner',has_public_collections:true,has_public_mock_servers:true,has_unstripped_secrets:true,member_count:150,has_fork_workflow:false,has_direct_collection_creation:true,has_valid_spec:false,has_security_schemes:false,has_sso_enabled:false}); const v=r.data?.data?.violations||[]; const h=v.map(v=>{const s=v.severity==='critical'?'border-red-500/30 bg-red-500/5':v.severity==='high'?'border-amber-500/30 bg-amber-500/5':'border-blue-500/30 bg-blue-500/5'; return`<div class="border ${s} rounded-lg p-2.5 text-xs"><div class="font-medium text-white mb-0.5">${esc(v.rule)}</div><div class="text-slate-400">${esc(v.message)}</div><div class="text-slate-500 mt-1 italic">${esc(v.remediation||'')}</div></div>`;}).join(''); show('result-compliance-violation',r.status,r.data,v.length?`<div class="space-y-2 mb-3"><div class="text-[10px] text-red-400 uppercase tracking-wider">${v.length} Violations</div>${h}</div>`:'');}
   badge('compliance','Loaded');
 }
 
 // ── Step 5: Collection Protection ──────────────────────
 async function runProtection(t) {
   const ws=state.wsId||'ws-demo-001';
-  if(t==='protect'){const{status,data}=await api('POST','/collections/protect',{collection_uid:'col-cloud-v3-uid',workspace_id:ws,collection_name:'Cloud Platform APIs v3',required_approvals:1,designated_reviewers:['reviewer@deloitte.com'],designated_mergers:['admin@deloitte.com'],block_direct_edits:true,require_description:true}); show('result-protect',status,data); badge('protection','Protected');}
+  if(t==='protect'){const{status,data}=await api('POST','/collections/protect',{collection_uid:'col-cloud-v3-uid',workspace_id:ws,collection_name:'Cloud Platform APIs v3',required_approvals:1,designated_reviewers:[`reviewer@${CFG.brand.adminOrgDomain}`],designated_mergers:[`admin@${CFG.brand.adminOrgDomain}`],block_direct_edits:true,require_description:true}); show('result-protect',status,data); badge('protection','Protected');}
   else if(t==='pr'){const{status,data}=await api('POST','/collections/pr',{source_collection_uid:'partner-fork-uid',target_collection_uid:'col-cloud-v3-uid',workspace_id:ws,title:'Add OAuth2 headers to all endpoints',description:'Added Bearer token auth headers as required by the new security policy.'}); state.prId=data?.data?.id; show('result-pr',status,data);}
-  else if(t==='review'){if(!state.prId){show('result-review',0,{error:'Create a PR first'});return;} const{status,data}=await api('POST',`/collections/pr/${state.prId}/review`,{action:'approve',comment:'LGTM'}); const m=data?.error?.message||''; show('result-review',status,data,m.includes('own pull request')?`<div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-3 text-xs text-amber-300">Expected: Self-review is blocked. In production, a different user (reviewer@deloitte.com) would approve.</div>`:'');}
+  else if(t==='review'){if(!state.prId){show('result-review',0,{error:'Create a PR first'});return;} const{status,data}=await api('POST',`/collections/pr/${state.prId}/review`,{action:'approve',comment:'LGTM'}); const m=data?.error?.message||''; show('result-review',status,data,m.includes('own pull request')?`<div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-3 text-xs text-amber-300">Expected: Self-review is blocked. In production, a different user (reviewer@${CFG.brand.adminOrgDomain}) would approve.</div>`:'');}
 }
 
 // ── Step 6: Audit ──────────────────────────────────────
@@ -966,7 +1089,18 @@ async function runAudit(t) {
 }
 
 // ── Step 7: Live Cross-Workspace Provisioning ──────────
-const TARGET_WS = '897c9214-fccb-4bce-9008-96e6196d44d1';
+// TARGET_WS_MAP is a dynamic getter backed by CFG (loaded from /config).
+// No workspace IDs are hardcoded — they come from service/.env.
+function getTargetWsMap() {
+  const t = CFG.targets;
+  return {
+    'AWS':     { id: t.AWS?.id || '', name: t.AWS?.name || 'Target-AWS' },
+    'Azure':   { id: t.Azure?.id || '', name: t.Azure?.name || 'Target-Azure' },
+    'On-Prem': { id: t['On-Prem']?.id || '', name: t['On-Prem']?.name || 'Target-OnPrem' },
+  };
+}
+// Convenience alias (recalculated each use)
+Object.defineProperty(window, 'TARGET_WS_MAP', { get: getTargetWsMap });
 
 const ENV_COLORS = {
   'AWS':     { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400', dot: 'bg-amber-400', icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' },
@@ -981,82 +1115,116 @@ async function loadSourceEnvironments() {
     const envs = data?.data?.source_environments || [];
     el.innerHTML = envs.map(env => {
       const c = ENV_COLORS[env.tag] || { bg: 'bg-slate-800', border: 'border-slate-700', text: 'text-slate-400', dot: 'bg-slate-500', icon: '' };
+      const targetWs = TARGET_WS_MAP[env.tag];
+      const targetLabel = targetWs ? `<div class="flex items-center gap-1 mt-2 mb-3 px-2 py-1 rounded ${c.bg} border ${c.border}"><svg class="w-3 h-3 ${c.text}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg><span class="text-[10px] ${c.text} font-medium">Target: ${esc(targetWs.name)}</span></div>` : '';
       return `<div class="${c.bg} border ${c.border} rounded-xl p-4 step-card">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-2.5 h-2.5 rounded-full ${c.dot}"></span>
-          <span class="text-sm font-semibold text-white">${env.label}</span>
+          <span class="text-sm font-semibold text-white">${esc(env.label)}</span>
         </div>
-        <div class="text-[10px] text-slate-500 mb-3">${env.description}</div>
+        <div class="text-[10px] text-slate-500 mb-1">${esc(env.description)}</div>
+        ${targetLabel}
         <div class="space-y-1.5 text-xs">
           <div class="${c.text} font-medium text-[10px] uppercase tracking-wider">Collections (${env.collections.length})</div>
-          ${env.collections.map(col => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}">${col.name}</div>`).join('')}
+          ${env.collections.map(col => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}">${esc(col.name)}</div>`).join('')}
           <div class="${c.text} font-medium text-[10px] uppercase tracking-wider mt-2">Environments (${env.environments.length})</div>
-          ${env.environments.map(e => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}">${e.name}</div>`).join('')}
+          ${env.environments.map(e => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}">${esc(e.name)}</div>`).join('')}
+          ${(env.specs && env.specs.length) ? `<div class="${c.text} font-medium text-[10px] uppercase tracking-wider mt-2">Specs — Spec Hub (${env.specs.length})</div>${env.specs.map(s => `<div class="text-slate-300 pl-2 border-l-2 ${c.border}"><span class="inline-flex items-center gap-1"><svg class="w-3 h-3 ${c.text}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>${esc(s.name)}</span></div>`).join('')}` : ''}
         </div>
       </div>`;
     }).join('');
   } catch(e) {
-    el.innerHTML = `<div class="col-span-3 text-xs text-red-400">Failed to load: ${e.message}</div>`;
+    el.innerHTML = `<div class="col-span-3 text-xs text-red-400">Failed to load: ${esc(e.message)}</div>`;
   }
 }
+
+// Accumulated assets across provision calls (cleared on cleanup)
+let accumulatedAssets = [];
 
 async function runLiveProvisionEnv(sourceEnv) {
   const btnId = sourceEnv === 'all' ? 'btn-prov-all' : `btn-prov-${sourceEnv.toLowerCase().replace('-','')}`;
   const btn = document.getElementById(btnId);
+  if (!btn) { console.warn('Provision button not found:', btnId); return; }
   const origText = btn.textContent;
   btn.textContent = 'Provisioning...'; btn.disabled = true;
 
   try {
-    const { status, data } = await api('POST', '/provision/live', {
-      target_workspace_id: TARGET_WS,
-      partner_name: 'Coca-Cola UK',
-      source_environment: sourceEnv,
-    });
-    const d = data?.data;
-    if (d && d.steps) {
-      const stepsHtml = d.steps.map(s => {
-        const c = s.status === 'completed' ? 'text-green-400' : s.status === 'failed' ? 'text-red-400' : 'text-slate-500';
-        const icon = s.status === 'completed' ? '&#10003;' : s.status === 'failed' ? '&#10007;' : '&#8212;';
-        const envBadge = s.source_env ? `<span class="px-1.5 py-0.5 rounded text-[9px] ${(ENV_COLORS[s.source_env]||{}).bg||'bg-slate-800'} ${(ENV_COLORS[s.source_env]||{}).text||'text-slate-400'}">${s.source_env}</span>` : '';
-        return `<div class="flex items-center gap-2 text-xs py-1"><span class="${c}">${icon}</span>${envBadge}<span class="text-slate-300 flex-1">${s.name}</span><span class="text-slate-600 mono text-[10px] shrink-0">${s.detail}</span></div>`;
-      }).join('');
-
-      const envLabel = sourceEnv === 'all' ? 'All Environments' : sourceEnv;
-      const pipeline = `<div class="bg-slate-800/50 rounded-lg p-3 mb-3">
-        <div class="flex items-center gap-2 mb-2">
-          <div class="text-[10px] text-orange-400 uppercase tracking-wider">Live Pipeline</div>
-          <span class="px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 text-[10px] font-medium">Source: ${envLabel}</span>
-        </div>
-        ${stepsHtml}
-      </div>`;
-
-      show('result-live-provision', status, data, pipeline);
-
-      const linksEl = document.getElementById('live-provision-links');
-      const assetsEl = document.getElementById('live-provision-assets');
-      const assets = [];
-      for (const col of d.collections_copied || []) {
-        const ec = ENV_COLORS[col.source_env] || {};
-        assets.push(`<div class="flex items-center gap-2 text-xs">
-          <span class="text-green-400">&#10003;</span>
-          <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${col.source_env}</span>
-          <span class="text-slate-300">Collection: <strong class="text-white">${col.name}</strong></span>
-        </div>`);
-      }
-      for (const env of d.environments_copied || []) {
-        const ec = ENV_COLORS[env.source_env] || {};
-        assets.push(`<div class="flex items-center gap-2 text-xs">
-          <span class="text-green-400">&#10003;</span>
-          <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${env.source_env}</span>
-          <span class="text-slate-300">Environment: <strong class="text-white">${env.name}</strong></span>
-        </div>`);
-      }
-      assetsEl.innerHTML = assets.join('');
-      linksEl.classList.remove('hidden');
-    } else {
-      show('result-live-provision', status, data);
+    // Validate that workspace IDs are configured
+    const wsMap = TARGET_WS_MAP;
+    const missingTargets = Object.entries(wsMap).filter(([,ws]) => !ws.id);
+    if (missingTargets.length > 0 && sourceEnv !== 'all') {
+      const targetWs = wsMap[sourceEnv];
+      if (!targetWs?.id) throw new Error(`No target workspace ID configured for "${sourceEnv}". Edit TARGET_WS_${sourceEnv.toUpperCase().replace('-','')}_ID in service/.env`);
     }
-    badge('live-provision', sourceEnv === 'all' ? 'All Done' : sourceEnv);
+
+    // For "all" — fire three separate provisions, each to its own workspace
+    if (sourceEnv === 'all') {
+      let allStepsHtml = '';
+      for (const [tag, ws] of Object.entries(wsMap)) {
+        if (!ws.id) { allStepsHtml += `<div class="text-xs text-amber-400 p-2">⚠ Skipped ${esc(tag)}: no target workspace ID configured</div>`; continue; }
+        const { status, data } = await api('POST', '/provision/live', {
+          target_workspace_id: ws.id,
+          partner_name: CFG.brand.partnerName,
+          source_environment: tag,
+        });
+        const d = data?.data;
+        if (d && d.steps) {
+          const ec = ENV_COLORS[tag] || {};
+          const stepsHtml = d.steps.map(s => {
+            const c = s.status === 'completed' ? 'text-green-400' : s.status === 'failed' ? 'text-red-400' : 'text-slate-500';
+            const icon = s.status === 'completed' ? '&#10003;' : s.status === 'failed' ? '&#10007;' : '&#8212;';
+            const envBadge = s.source_env ? `<span class="px-1.5 py-0.5 rounded text-[9px] ${(ENV_COLORS[s.source_env]||{}).bg||'bg-slate-800'} ${(ENV_COLORS[s.source_env]||{}).text||'text-slate-400'}">${s.source_env}</span>` : '';
+            return `<div class="flex items-center gap-2 text-xs py-1"><span class="${c}">${icon}</span>${envBadge}<span class="text-slate-300 flex-1">${s.name}</span><span class="text-slate-600 mono text-[10px] shrink-0">${s.detail}</span></div>`;
+          }).join('');
+          allStepsHtml += `<div class="bg-slate-800/50 rounded-lg p-3 mb-3">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="text-[10px] ${ec.text||'text-orange-400'} uppercase tracking-wider">Pipeline: ${tag}</div>
+              <span class="px-2 py-0.5 rounded-full ${ec.bg||''} ${ec.text||''} text-[10px] font-medium">&rarr; ${ws.name}</span>
+            </div>
+            ${stepsHtml}
+          </div>`;
+          appendProvisionedAssets(d);
+        }
+      }
+      show('result-live-provision', 201, { success: true }, allStepsHtml);
+      document.getElementById('live-provision-links').classList.remove('hidden');
+      badge('live-provision', 'All Done');
+    } else {
+      // Single environment — route to its dedicated workspace
+      const targetWs = TARGET_WS_MAP[sourceEnv];
+      if (!targetWs) { throw new Error(`No target workspace configured for "${sourceEnv}"`); }
+
+      const { status, data } = await api('POST', '/provision/live', {
+        target_workspace_id: targetWs.id,
+        partner_name: CFG.brand.partnerName,
+        source_environment: sourceEnv,
+      });
+      const d = data?.data;
+      if (d && d.steps) {
+        const ec = ENV_COLORS[sourceEnv] || {};
+        const stepsHtml = d.steps.map(s => {
+          const c = s.status === 'completed' ? 'text-green-400' : s.status === 'failed' ? 'text-red-400' : 'text-slate-500';
+          const icon = s.status === 'completed' ? '&#10003;' : s.status === 'failed' ? '&#10007;' : '&#8212;';
+          const envBadge = s.source_env ? `<span class="px-1.5 py-0.5 rounded text-[9px] ${(ENV_COLORS[s.source_env]||{}).bg||'bg-slate-800'} ${(ENV_COLORS[s.source_env]||{}).text||'text-slate-400'}">${s.source_env}</span>` : '';
+          return `<div class="flex items-center gap-2 text-xs py-1"><span class="${c}">${icon}</span>${envBadge}<span class="text-slate-300 flex-1">${s.name}</span><span class="text-slate-600 mono text-[10px] shrink-0">${s.detail}</span></div>`;
+        }).join('');
+
+        const pipeline = `<div class="bg-slate-800/50 rounded-lg p-3 mb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="text-[10px] ${ec.text||'text-orange-400'} uppercase tracking-wider">Pipeline: ${sourceEnv}</div>
+            <span class="px-2 py-0.5 rounded-full ${ec.bg||''} ${ec.text||''} text-[10px] font-medium">&rarr; ${targetWs.name}</span>
+          </div>
+          ${stepsHtml}
+        </div>`;
+
+        show('result-live-provision', status, data, pipeline);
+        appendProvisionedAssets(d);
+        document.getElementById('live-provision-links').classList.remove('hidden');
+      } else {
+        show('result-live-provision', status, data);
+      }
+      badge('live-provision', sourceEnv);
+    }
     btn.textContent = origText;
   } catch(e) {
     show('result-live-provision', 0, { error: e.message });
@@ -1065,18 +1233,61 @@ async function runLiveProvisionEnv(sourceEnv) {
   btn.disabled = false;
 }
 
-async function runLiveCleanup() {
+function appendProvisionedAssets(d) {
+  const assetsEl = document.getElementById('live-provision-assets');
+  for (const col of d.collections_copied || []) {
+    const ec = ENV_COLORS[col.source_env] || {};
+    const targetWs = TARGET_WS_MAP[col.source_env] || {};
+    accumulatedAssets.push(`<div class="flex items-center gap-2 text-xs">
+      <span class="text-green-400">&#10003;</span>
+      <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${esc(col.source_env)}</span>
+      <span class="text-slate-300">Collection: <strong class="text-white">${esc(col.name)}</strong></span>
+      <span class="text-slate-600 text-[10px]">&rarr; ${esc(targetWs.name || '?')}</span>
+    </div>`);
+  }
+  for (const env of d.environments_copied || []) {
+    const ec = ENV_COLORS[env.source_env] || {};
+    const targetWs = TARGET_WS_MAP[env.source_env] || {};
+    accumulatedAssets.push(`<div class="flex items-center gap-2 text-xs">
+      <span class="text-green-400">&#10003;</span>
+      <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${esc(env.source_env)}</span>
+      <span class="text-slate-300">Environment: <strong class="text-white">${esc(env.name)}</strong></span>
+      <span class="text-slate-600 text-[10px]">&rarr; ${esc(targetWs.name || '?')}</span>
+    </div>`);
+  }
+  for (const spec of d.specs_published || []) {
+    const ec = ENV_COLORS[spec.source_env] || {};
+    const targetWs = TARGET_WS_MAP[spec.source_env] || {};
+    accumulatedAssets.push(`<div class="flex items-center gap-2 text-xs">
+      <span class="text-fuchsia-400">&#10003;</span>
+      <span class="px-1.5 py-0.5 rounded text-[9px] ${ec.bg||''} ${ec.text||''}">${esc(spec.source_env)}</span>
+      <span class="text-slate-300">Spec Hub: <strong class="text-fuchsia-300">${esc(spec.name)}</strong></span>
+      <span class="text-slate-600 text-[10px]">&rarr; ${esc(targetWs.name || '?')}</span>
+    </div>`);
+  }
+  assetsEl.innerHTML = accumulatedAssets.join('');
+}
+
+async function runLiveCleanupAll() {
   const btn = document.getElementById('btn-live-cleanup');
-  btn.textContent = 'Cleaning...'; btn.disabled = true;
+  if (!btn) return; btn.textContent = 'Cleaning 3 workspaces...'; btn.disabled = true;
+  let totalRemoved = 0;
+  const details = [];
   try {
-    const { status, data } = await api('POST', '/provision/live/cleanup', { target_workspace_id: TARGET_WS });
-    const count = data?.data?.count || 0;
-    show('result-live-cleanup', status, data, `<div class="bg-slate-800/50 rounded-lg p-3 mb-3 text-xs text-slate-400">Removed ${count} asset(s) from target workspace. It's now clean for another demo run.</div>`);
+    for (const [tag, ws] of Object.entries(TARGET_WS_MAP)) {
+      const { data } = await api('POST', '/provision/live/cleanup', { target_workspace_id: ws.id });
+      const count = data?.data?.count || 0;
+      totalRemoved += count;
+      const ec = ENV_COLORS[tag] || {};
+      details.push(`<span class="${ec.text||'text-slate-400'}">${ws.name}</span>: ${count} asset(s)`);
+    }
+    show('result-live-cleanup', 200, { success: true }, `<div class="bg-slate-800/50 rounded-lg p-3 mb-3 text-xs text-slate-400">Cleaned ${totalRemoved} total asset(s) across 3 workspaces: ${details.join(' &bull; ')}</div>`);
     document.getElementById('live-provision-links').classList.add('hidden');
-    btn.textContent = 'Reset Target Workspace';
+    accumulatedAssets = [];
+    btn.textContent = 'Reset All Target Workspaces';
   } catch(e) {
     show('result-live-cleanup', 0, { error: e.message });
-    btn.textContent = 'Reset Target Workspace';
+    btn.textContent = 'Reset All Target Workspaces';
   }
   btn.disabled = false;
 }
@@ -1110,10 +1321,10 @@ async function runPartnerHome(t) {
     const p = data?.data;
     if (p) {
       const domains = (p.allowed_invite_domains || []).map(d => {
-        const isPartner = d === 'coca-cola.com';
-        const isDeloitte = d.includes('deloitte');
-        const cls = isPartner ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' : isDeloitte ? 'bg-deloitte-500/10 text-deloitte-400 border-deloitte-500/20' : 'bg-slate-800 text-slate-400 border-slate-700';
-        const label = isPartner ? 'My domain' : isDeloitte ? 'Deloitte' : '';
+        const isPartner = d === CFG.brand.partnerDomain;
+        const isAdmin = d.includes(CFG.brand.adminOrgDomain.split('.')[0]);
+        const cls = isPartner ? 'bg-sky-500/10 text-sky-400 border-sky-500/20' : isAdmin ? 'bg-deloitte-500/10 text-deloitte-400 border-deloitte-500/20' : 'bg-slate-800 text-slate-400 border-slate-700';
+        const label = isPartner ? 'My domain' : isAdmin ? CFG.brand.adminOrgName : '';
         return `<span class="inline-flex items-center gap-1 px-2 py-1 rounded border text-[10px] ${cls}">${d}${label ? ` <span class="text-[8px] opacity-60">(${label})</span>` : ''}</span>`;
       }).join(' ');
       show('result-partner-policy', status, data, `<div class="bg-sky-500/5 border border-sky-500/10 rounded-lg p-4 mb-3"><div class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">Domains I Can Invite From</div><div class="flex flex-wrap gap-1.5">${domains}</div></div>`);
@@ -1149,11 +1360,11 @@ async function runPartnerInvite(t) {
   const ws = state.wsId;
   if (!ws) { show('result-pi-' + t, 0, { error: 'Run Step 1 first' }); return; }
   let r;
-  if (t === 'good') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'sarah@coca-cola.com', role: 'editor' }] });
-  else if (t === 'deloitte') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'consultant@deloitte.com', role: 'viewer' }] });
+  if (t === 'good') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: `sarah@${CFG.brand.partnerDomain}`, role: 'editor' }] });
+  else if (t === 'deloitte') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: `consultant@${CFG.brand.adminOrgDomain}`, role: 'viewer' }] });
   else if (t === 'gmail') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'friend@gmail.com', role: 'viewer' }] });
-  else if (t === 'competitor') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'spy@pepsi.com', role: 'viewer' }] });
-  else if (t === 'dryrun') r = await api('POST', `/invite/workspace/${ws}/check`, { invitees: [{ email: 'ok@coca-cola.com', role: 'viewer' }, { email: 'nope@hotmail.com', role: 'viewer' }] });
+  else if (t === 'competitor') r = await api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: `spy@${CFG.brand.competitorDomain}`, role: 'viewer' }] });
+  else if (t === 'dryrun') r = await api('POST', `/invite/workspace/${ws}/check`, { invitees: [{ email: `ok@${CFG.brand.partnerDomain}`, role: 'viewer' }, { email: 'nope@hotmail.com', role: 'viewer' }] });
 
   const ok = r.status < 400;
   const extra = ok
@@ -1173,7 +1384,7 @@ async function runPartnerPR(t) {
       description: 'Updated error response codes to align with UK API Design Standards v2. Includes mapping from HTTP 422 to domain-specific error codes.',
     });
     state.partnerPrId = data?.data?.id;
-    show('result-ppr-create', status, data, `<div class="bg-sky-500/5 border border-sky-500/10 rounded-lg p-3 mb-3 text-xs text-sky-300">PR submitted. Now waiting for a designated reviewer (reviewer@deloitte.com) to approve before it can be merged.</div>`);
+    show('result-ppr-create', status, data, `<div class="bg-sky-500/5 border border-sky-500/10 rounded-lg p-3 mb-3 text-xs text-sky-300">PR submitted. Now waiting for a designated reviewer (reviewer@${CFG.brand.adminOrgDomain}) to approve before it can be merged.</div>`);
     badge('partner-pr', 'PR Open');
   } else if (t === 'check') {
     if (!state.partnerPrId) { show('result-ppr-check', 0, { error: 'Submit a PR first' }); return; }
@@ -1228,14 +1439,14 @@ async function runPartnerLimits(t) {
   }
 }
 
-// ── Step 12: Developer Experience (Money Shot) ─────────
-const DX_GOVERNANCE = [
+// ── Step 12: Developer Experience (Proof Point) ────────
+function getDxGovernance() { return [
   {
     task: 'Invite colleague',
     checks: [
       { name: 'Invite policy lookup', detail: 'Found policy for workspace — auto-created during provisioning', color: 'fuchsia' },
-      { name: 'Domain validation', detail: 'sarah@coca-cola.com → coca-cola.com is in allowed_invite_domains', color: 'fuchsia' },
-      { name: 'Blocked domain check', detail: 'coca-cola.com is not in the blocked list (gmail, yahoo, etc.)', color: 'fuchsia' },
+      { name: 'Domain validation', detail: `sarah@${CFG.brand.partnerDomain} → ${CFG.brand.partnerDomain} is in allowed_invite_domains`, color: 'fuchsia' },
+      { name: 'Blocked domain check', detail: `${CFG.brand.partnerDomain} is not in the blocked list (gmail, yahoo, etc.)`, color: 'fuchsia' },
       { name: 'Member cap check', detail: 'Current: 3 members, limit: 100 — under cap', color: 'fuchsia' },
       { name: 'Audit entry created', detail: 'invite.sent logged with actor, email, workspace, timestamp', color: 'cyan' },
     ]
@@ -1260,7 +1471,7 @@ const DX_GOVERNANCE = [
     checks: [
       { name: 'Protection rule check', detail: 'Target collection is protected — PR workflow is the only path', color: 'fuchsia' },
       { name: 'Description requirement', detail: 'PR has description → passes require_description rule', color: 'fuchsia' },
-      { name: 'Reviewer assignment', detail: 'Designated reviewers (reviewer@deloitte.com) auto-notified', color: 'fuchsia' },
+      { name: 'Reviewer assignment', detail: `Designated reviewers (reviewer@${CFG.brand.adminOrgDomain}) auto-notified`, color: 'fuchsia' },
       { name: 'Self-review prevention', detail: 'System recorded author — will block if same user tries to approve', color: 'fuchsia' },
       { name: 'Audit entry created', detail: 'pr.created logged with title, author, source/target collections', color: 'cyan' },
     ]
@@ -1276,7 +1487,7 @@ const DX_GOVERNANCE = [
       { name: 'Spec validation', detail: 'Valid OpenAPI spec with security schemes ✓', color: 'fuchsia' },
     ]
   },
-];
+]; }
 
 async function runDxSimulation() {
   // Reset state
@@ -1294,7 +1505,7 @@ async function runDxSimulation() {
 
   const ws = state.wsId || 'ws-demo-001';
   const apiCalls = [
-    () => api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: 'sarah@coca-cola.com', role: 'editor' }] }),
+    () => api('POST', `/invite/workspace/${ws}`, { invitees: [{ email: `sarah@${CFG.brand.partnerDomain}`, role: 'editor' }] }),
     () => api('GET', '/compliance/rules/team-cpg'),
     () => api('GET', `/collections/workspace/${ws}/rules`),
     () => api('POST', '/collections/pr', { source_collection_uid: 'partner-fork-uid', target_collection_uid: 'col-cloud-v3-uid', workspace_id: ws, title: 'Add UK-specific error codes', description: 'Align error responses with UK API Design Standards v2.' }),
@@ -1349,6 +1560,7 @@ async function revealGovernance() {
   let totalAudit = 0;
   details.innerHTML = '';
 
+  const DX_GOVERNANCE = getDxGovernance();
   for (let t = 0; t < DX_GOVERNANCE.length; t++) {
     const task = DX_GOVERNANCE[t];
     const taskEl = document.createElement('div');
@@ -1393,7 +1605,7 @@ async function runFullDemo() {
   const btn=document.getElementById('btn-full-demo'); const prog=document.getElementById('full-demo-progress'); const stepsEl=document.getElementById('full-demo-steps');
   btn.disabled=true; btn.textContent='Running...'; btn.className=btn.className.replace('bg-deloitte-500 hover:bg-deloitte-600','bg-slate-700'); prog.classList.remove('hidden');
   const steps=[
-    {name:'Provision Coca-Cola UK workspace',fn:async()=>{goTo('provision');await runProvision();}},
+    {name:`Provision ${CFG.brand.partnerName} workspace`,fn:async()=>{goTo('provision');await runProvision();}},
     {name:'Guardrails: block gmail.com',fn:async()=>{goTo('guardrails');await runGuardrail('gmail');}},
     {name:'Guardrails: deny unknown domain',fn:async()=>{await runGuardrail('unknown');}},
     {name:'Guardrails: deny wrong team',fn:async()=>{await runGuardrail('wrongteam');}},
@@ -1408,15 +1620,15 @@ async function runFullDemo() {
     {name:'Collection Protection: create PR',fn:async()=>{await runProtection('pr');}},
     {name:'Audit Trail: all events',fn:async()=>{goTo('audit');await runAudit('all');}},
     {name:'Audit Trail: provision timeline',fn:async()=>{await runAudit('provision');}},
-    {name:'[Live] Clean target workspace',fn:async()=>{goTo('live-provision');await runLiveCleanup();}},
-    {name:'[Live] Provision AWS → Deloitte2',fn:async()=>{await runLiveProvisionEnv('AWS');}},
-    {name:'[Live] Provision Azure → Deloitte2',fn:async()=>{await runLiveProvisionEnv('Azure');}},
-    {name:'[Live] Provision On-Prem → Deloitte2',fn:async()=>{await runLiveProvisionEnv('On-Prem');}},
+    {name:'[Live] Clean target workspaces',fn:async()=>{goTo('live-provision');await runLiveCleanupAll();}},
+    {name:`[Live] Provision AWS → ${CFG.targets.AWS?.name||'Target'}`,fn:async()=>{await runLiveProvisionEnv('AWS');}},
+    {name:`[Live] Provision Azure → ${CFG.targets.Azure?.name||'Target'}`,fn:async()=>{await runLiveProvisionEnv('Azure');}},
+    {name:`[Live] Provision On-Prem → ${CFG.targets['On-Prem']?.name||'Target'}`,fn:async()=>{await runLiveProvisionEnv('On-Prem');}},
     {name:'[Partner] My workspace overview',fn:async()=>{goTo('partner-home');await runPartnerHome('status');}},
     {name:'[Partner] My invite rules',fn:async()=>{await runPartnerHome('policy');}},
     {name:'[Partner] My compliance rules',fn:async()=>{await runPartnerHome('compliance');}},
     {name:'[Partner] Invite a colleague',fn:async()=>{goTo('partner-invite');await runPartnerInvite('good');}},
-    {name:'[Partner] Invite a Deloitte consultant',fn:async()=>{await runPartnerInvite('deloitte');}},
+    {name:`[Partner] Invite a ${CFG.brand.adminOrgName} consultant`,fn:async()=>{await runPartnerInvite('deloitte');}},
     {name:'[Partner] Try inviting gmail (blocked)',fn:async()=>{await runPartnerInvite('gmail');}},
     {name:'[Partner] Submit a PR',fn:async()=>{goTo('partner-pr');await runPartnerPR('create');}},
     {name:'[Partner] Check PR status',fn:async()=>{await runPartnerPR('check');}},
@@ -1433,8 +1645,14 @@ async function runFullDemo() {
 }
 
 // ── Init ───────────────────────────────────────────────
-goTo('welcome'); checkConn(); setInterval(checkConn, 10000);
-loadSourceEnvironments();
+async function init() {
+  await loadAppConfig();
+  goTo('welcome');
+  checkConn();
+  setInterval(checkConn, 10000);
+  loadSourceEnvironments();
+}
+init();
 </script>
 </body>
 </html>

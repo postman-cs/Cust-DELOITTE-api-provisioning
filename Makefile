@@ -32,19 +32,34 @@ help: ## Show this help message
 	@echo ""
 
 setup: ## First-time setup: install deps, create .env, run tests
-	@echo "$(GREEN)Setting up Deloitte API Provisioning Platform...$(RESET)"
+	@echo "$(GREEN)Setting up API Provisioning Platform...$(RESET)"
+	@echo ""
 	@if [ ! -f service/.env ]; then \
 		cp .env.example service/.env; \
-		echo "  Created service/.env from .env.example"; \
+		echo "  $(GREEN)✓$(RESET) Created service/.env from .env.example"; \
+		echo ""; \
+		echo "  $(BOLD)⚠  IMPORTANT: Edit service/.env with YOUR values:$(RESET)"; \
+		echo "     - POSTMAN_API_KEY          (your Postman API key)"; \
+		echo "     - POSTMAN_GOLDEN_WORKSPACE_ID  (source workspace)"; \
+		echo "     - TARGET_WS_*              (target workspaces)"; \
+		echo "     - PARTNER_NAME / PARTNER_DOMAIN"; \
+		echo "     - ADMIN_ORG_NAME / ADMIN_ORG_DOMAIN"; \
+		echo ""; \
 	else \
-		echo "  service/.env already exists, skipping"; \
+		echo "  $(GREEN)✓$(RESET) service/.env already exists"; \
 	fi
 	@cd service && npm install --silent
-	@echo "  Dependencies installed"
-	@cd service && npx tsc --noEmit 2>/dev/null && echo "  TypeScript compiles cleanly" || echo "  Warning: TypeScript errors detected"
-	@cd service && npm test -- --silent 2>/dev/null && echo "  All tests pass" || echo "  Warning: Some tests failed"
+	@echo "  $(GREEN)✓$(RESET) Dependencies installed"
+	@cd service && npx tsc --noEmit 2>/dev/null && echo "  $(GREEN)✓$(RESET) TypeScript compiles cleanly" || echo "  ⚠ TypeScript errors detected"
 	@echo ""
-	@echo "$(GREEN)Setup complete!$(RESET) Run $(BOLD)make dev$(RESET) to start the service."
+	@echo "$(GREEN)Setup complete!$(RESET)"
+	@echo ""
+	@echo "  Next steps:"
+	@echo "    1. Edit $(BOLD)service/.env$(RESET) with your values"
+	@echo "    2. $(BOLD)make dev$(RESET)       — start the backend (terminal 1)"
+	@echo "    3. $(BOLD)make demo-ui$(RESET)   — start the UI      (terminal 2)"
+	@echo "    4. Open $(BOLD)http://localhost:5173$(RESET)"
+	@echo ""
 
 install: ## Install dependencies only
 	@cd service && npm install

@@ -52,7 +52,7 @@ async function main(): Promise<void> {
 
   // ── Initialize components ───────────────────────────
   const postmanClient: IPostmanClient = config.useMockPostmanClient
-    ? new MockPostmanClient()
+    ? new MockPostmanClient(config.postmanGoldenWorkspaceId)
     : new LivePostmanClient(config.postmanApiKey, config.postmanApiBaseUrl);
 
   const policyEngine = new PolicyEngine(config.policy);
@@ -94,7 +94,13 @@ async function main(): Promise<void> {
 
   // Security & parsing middleware
   app.use(helmet());
-  app.use(cors());
+  app.use(cors({
+    origin: config.nodeEnv === "production"
+      ? (process.env.CORS_ALLOWED_ORIGINS || "").split(",").filter(Boolean)
+      : true,  // Allow all origins in development (demo UI on different port)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID", "X-API-Key"],
+  }));
   app.use(express.json({ limit: "1mb" }));
 
   // Assign a unique request ID to every request (used in responses and logs)
@@ -110,6 +116,26 @@ async function main(): Promise<void> {
 
   // Health routes (no auth required)
   app.use("/health", createHealthRoutes());
+
+  // Config endpoint (no auth required) — serves UI-relevant config.
+  // No secrets are exposed (API key is never sent).
+  app.get("/config", (_req: Request, res: Response) => {
+    res.json({
+      goldenWorkspace: {
+        id: config.postmanGoldenWorkspaceId,
+        name: config.postmanGoldenWorkspaceName,
+        url: `https://go.postman.co/workspace/${config.postmanGoldenWorkspaceId}`,
+      },
+      targetWorkspaces: Object.fromEntries(
+        Object.entries(config.targetWorkspaces).map(([tag, ws]) => {
+          const { id, name } = ws as { id: string; name: string };
+          return [tag, { id, name, url: id ? `https://go.postman.co/workspace/${id}` : "" }];
+        })
+      ),
+      branding: config.branding,
+      liveProvisioningEnabled: !!(config.postmanApiKey && config.postmanGoldenWorkspaceId),
+    });
+  });
 
   // Auth middleware (applied to all routes below)
   app.use(authMiddleware);
@@ -144,6 +170,7 @@ async function main(): Promise<void> {
     });
     logger.info("Available routes:", {
       routes: [
+        "GET    /config                           (UI configuration — no secrets)",
         "GET    /health",
         "GET    /health/ready",
         "POST   /provision/workspace",
@@ -171,12 +198,28 @@ async function main(): Promise<void> {
         "GET    /audit/logs/:id",
         "GET    /audit/provision/:id",
         "GET    /provision/live/environments          (list source environments)",
-        "POST   /provision/live                    (real Postman API provisioning)",
-        "POST   /provision/live/cleanup             (reset target workspace)",
+        "POST   /provision/live                    (real Postman API provisioning + Spec Hub)",
+        "POST   /provision/live/cleanup             (reset target workspace incl. Spec Hub)",
       ],
     });
   });
+
+  // Global error handler — catch any unhandled Express errors
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    logger.error("Unhandled error", { error: err.message, stack: err.stack });
+    res.status(500).json({ error: "Internal Server Error" });
+  });
 }
+
+// Graceful shutdown
+process.on("unhandledRejection", (reason) => {
+  logger.error("Unhandled promise rejection", { reason: String(reason) });
+});
+process.on("uncaughtException", (err) => {
+  logger.error("Uncaught exception — shutting down", { error: err.message });
+  process.exit(1);
+});
 
 main().catch((err) => {
   logger.error("Failed to start service", { error: err });

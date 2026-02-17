@@ -25,6 +25,19 @@ if (envFile) {
   dotenv.config();
 }
 
+export interface TargetWorkspace {
+  id: string;
+  name: string;
+}
+
+export interface DemoBranding {
+  adminOrgName: string;
+  adminOrgDomain: string;
+  partnerName: string;
+  partnerDomain: string;
+  competitorDomain: string;
+}
+
 export interface AppConfig {
   port: number;
   nodeEnv: string;
@@ -34,7 +47,18 @@ export interface AppConfig {
   postmanApiKey: string;
   postmanApiBaseUrl: string;
   postmanGoldenWorkspaceId: string;
+  postmanGoldenWorkspaceName: string;
   useMockPostmanClient: boolean;
+
+  // Target workspaces (one per source environment)
+  targetWorkspaces: {
+    AWS: TargetWorkspace;
+    Azure: TargetWorkspace;
+    "On-Prem": TargetWorkspace;
+  };
+
+  // Demo branding
+  branding: DemoBranding;
 
   // Auth
   authEnabled: boolean;
@@ -328,7 +352,31 @@ export function loadConfig(): AppConfig {
     postmanApiKey,
     postmanApiBaseUrl: env("POSTMAN_API_BASE_URL", "https://api.getpostman.com"),
     postmanGoldenWorkspaceId: goldenWorkspaceId,
+    postmanGoldenWorkspaceName: env("POSTMAN_GOLDEN_WORKSPACE_NAME", "Golden Workspace"),
     useMockPostmanClient: useMock,
+
+    targetWorkspaces: {
+      AWS: {
+        id: env("TARGET_WS_AWS_ID"),
+        name: env("TARGET_WS_AWS_NAME", "Target-AWS"),
+      },
+      Azure: {
+        id: env("TARGET_WS_AZURE_ID"),
+        name: env("TARGET_WS_AZURE_NAME", "Target-Azure"),
+      },
+      "On-Prem": {
+        id: env("TARGET_WS_ONPREM_ID"),
+        name: env("TARGET_WS_ONPREM_NAME", "Target-OnPrem"),
+      },
+    },
+
+    branding: {
+      adminOrgName: env("ADMIN_ORG_NAME", "Acme Corp"),
+      adminOrgDomain: env("ADMIN_ORG_DOMAIN", "acme.com"),
+      partnerName: env("PARTNER_NAME", "Partner Inc"),
+      partnerDomain: env("PARTNER_DOMAIN", "partner.com"),
+      competitorDomain: env("COMPETITOR_DOMAIN", "competitor.com"),
+    },
 
     authEnabled,
     authIssuer: env("AUTH_ISSUER"),
