@@ -1,6 +1,60 @@
-# API Provisioning Platform
+# Cust-DELOITTE-api-provisioning
 
 A governance-first platform for provisioning, managing, and securing Postman workspaces at enterprise scale. Enforces domain guardrails, compliance rules, collection protection, and full audit trails — while letting downstream partners self-serve within safe boundaries.
+
+## Application Flow
+
+```mermaid
+flowchart TD
+    subgraph input [Request]
+        A1[Partner Onboarding Request]
+    end
+
+    subgraph policy [Policy Engine]
+        B1[Domain Allowlist Check]
+        B2[Compliance Floor Validation]
+        B3[Invite Guard]
+    end
+
+    subgraph provision [Provisioning Pipeline]
+        C1[Clone Golden Workspace]
+        C2[Apply Domain Guardrails]
+        C3[Seed Tagged Collections]
+        C4[Configure Environments]
+    end
+
+    subgraph protect [Post-Provision]
+        D1[Collection Protection - PR Workflow]
+        D2[Audit Trail Logging]
+        D3[RBAC Enforcement]
+    end
+
+    subgraph targets [Target Workspaces]
+        E1["[AWS] Partner Workspace"]
+        E2["[Azure] Partner Workspace"]
+        E3["[On-Prem] Partner Workspace"]
+    end
+
+    input --> policy
+    B1 --> B2 --> B3
+    policy -->|Approved| provision
+    C1 --> C2 --> C3 --> C4
+    provision --> protect
+    provision --> targets
+```
+
+## Setup Flow
+
+```mermaid
+flowchart LR
+    A[Clone Repo] --> B["cp .env.example service/.env"]
+    B --> C[Configure env vars]
+    C --> D[make setup]
+    D --> E[make dev]
+    E --> F["API at localhost:3001"]
+    D --> G[make demo-ui]
+    G --> H["UI at localhost:5173"]
+```
 
 > *"Governance should feel like autocomplete, not a speed bump. The developers who comply should barely notice it exists, and the ones who bump into it should immediately understand why and what to do instead."*
 
